@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Writeups | S1GK1LL</title>
+    <meta name="description" content="CTF writeups and exploitation techniques">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=JetBrains+Mono:wght@400;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="bg-pattern">
+
+    <nav class="nav-container">
+        <div class="nav-inner">
+            <a href="/" class="logo">
+                <div class="logo-icon"><span>𗉤</span></div>
+                S1GK1LL
+            </a>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
+            </button>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/writeups/" class="active">Writeups</a></li>
+                <li><a href="/research.html">Research</a></li>
+                <li><a href="/tools.html">Tools</a></li>
+                <li><a href="/about.html">About</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <section style="padding: 4rem 0 2rem;">
+            <div class="container">
+                <h1 class="hero-title" style="font-size: 3rem; text-align: center; margin-bottom: 1rem;">CTF Writeups</h1>
+                <p class="text-center" style="color: var(--text-secondary); margin-bottom: 2rem;">Detailed exploitation guides and vulnerability analysis</p>
+                
+                <div class="search-container" style="max-width: 500px;">
+                    <input type="text" id="search-input" class="search-input" placeholder="Search writeups..." onkeypress="handleSearch(event)">
+                    <button class="search-btn" onclick="performSearch()">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="filter-container">
+                    <button class="filter-btn active" onclick="filterWriteups('all')">All</button>
+                    <button class="filter-btn" onclick="filterWriteups('pwn')">Pwn</button>
+                    <button class="filter-btn" onclick="filterWriteups('web')">Web</button>
+                    <button class="filter-btn" onclick="filterWriteups('crypto')">Crypto</button>
+                    <button class="filter-btn" onclick="filterWriteups('reverse')">Reverse</button>
+                    <button class="filter-btn" onclick="filterWriteups('forensics')">Forensics</button>
+                </div>
+
+                <div id="no-results" class="hidden text-center" style="padding: 4rem 0; color: var(--text-muted);">
+                    <p style="font-size: 1.2rem; margin-bottom: 0.5rem;">No writeups found</p>
+                    <p>Try different keywords or categories</p>
+                </div>
+
+                <div class="posts-list">
+
+
+
+
+
+<article class="post-card" data-category="pwn"  onclick="window.location.href='/writeups/pietime.html'">
+    <div class="post-meta">
+        <span class="post-category">pwn</span>
+        <span class="post-date">2026-03-07</span>
+    </div>
+    <h3 class="post-title">pietime: PIE Bypass via Address Leak</h3>
+    <p class="post-excerpt">Exploiting an information leak to defeat Position Independent Executable (PIE) and achieve ret2win in a picoCTF binary challenge.</p>
+    <div class="post-tags">
+        <span class="post-tag">#pwn</span>
+        <span class="post-tag">#picoctf</span>
+        <span class="post-tag">#pie</span>
+        <span class="post-tag">#aslr-bypass</span>
+    </div>
+</article>
+
+
+
+
+
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>S1GK1LL</h4>
+                <p>Cybersecurity research and CTF archive</p>
+            </div>
+            <div class="footer-section">
+                <h4>Links</h4>
+                <p><a href="/">Home</a></p>
+                <p><a href="/writeups/">Writeups</a></p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 S1GK1LL | 殺</p>
+        </div>
+    </footer>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>

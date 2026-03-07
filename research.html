@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research | S1GK1LL</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=JetBrains+Mono:wght@400;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="bg-pattern">
+
+    <nav class="nav-container">
+        <div class="nav-inner">
+            <a href="/" class="logo">
+                <div class="logo-icon"><span>殺</span></div>
+                S1GK1LL
+            </a>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
+            </button>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/writeups/">Writeups</a></li>
+                <li><a href="/research.html" class="active">Research</a></li>
+                <li><a href="/tools.html">Tools</a></li>
+                <li><a href="/about.html">About</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <section style="padding: 4rem 0;">
+            <div class="container">
+                <h1 class="hero-title" style="font-size: 3rem; text-align: center; margin-bottom: 1rem;">Research Papers</h1>
+                <p class="text-center" style="color: var(--text-secondary); margin-bottom: 3rem;">Deep technical analysis and security research</p>
+
+                <div class="posts-list" style="max-width: 900px; margin: 0 auto;">
+                    <article class="post-card" style="cursor: default;">
+                        <div class="post-meta">
+                            <span class="post-category">Paper</span>
+                            <span class="post-date">February 15, 2024</span>
+                        </div>
+                        <h3 class="post-title" style="cursor: pointer;" onclick="this.nextElementSibling.classList.toggle('hidden')">Modern Heap Exploitation Techniques: A Comprehensive Survey</h3>
+                        <div class="hidden" style="margin-top: 1rem;">
+                            <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                                An in-depth analysis of post-glibc 2.32 heap exploitation techniques including tcache poisoning, largebin attacks, and safe-linking mitigations.
+                            </p>
+                            <button style="background: transparent; border: 1px solid var(--accent-gold); color: var(--accent-gold); padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; font-family: var(--font-mono);">Download PDF</button>
+                        </div>
+                    </article>
+
+                    <article class="post-card" style="cursor: default;">
+                        <div class="post-meta">
+                            <span class="post-category">Paper</span>
+                            <span class="post-date">January 20, 2024</span>
+                        </div>
+                        <h3 class="post-title" style="cursor: pointer;" onclick="this.nextElementSibling.classList.toggle('hidden')">Browser Security: Isolation Mechanisms and Bypass Techniques</h3>
+                        <div class="hidden" style="margin-top: 1rem;">
+                            <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                                Examining Site Isolation, COOP/COEP policies, and practical bypasses through speculative execution side-channels.
+                            </p>
+                            <button style="background: transparent; border: 1px solid var(--accent-gold); color: var(--accent-gold); padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; font-family: var(--font-mono);">Download PDF</button>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>S1GK1LL</h4>
+                <p>Cybersecurity research and CTF archive</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 S1GK1LL | 殺</p>
+        </div>
+    </footer>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S1GK1LL | Cybersecurity Research & CTF Archive</title>
+    <meta name="description" content="Cybersecurity research, CTF writeups, and binary exploitation techniques">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=JetBrains+Mono:wght@400;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="bg-pattern">
+
+    <nav class="nav-container">
+        <div class="nav-inner">
+            <a href="/" class="logo">
+                <div class="logo-icon">
+                    <span>𗉤</span>
+                </div>
+                S1GK1LL
+            </a>
+            
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
+            </button>
+            
+            <ul class="nav-links">
+                <li><a href="/" class="active">Home</a></li>
+                <li><a href="/writeups/">Writeups</a></li>
+                <li><a href="/research.html">Research</a></li>
+                <li><a href="/tools.html">Tools</a></li>
+                <li><a href="/about.html">About</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1 class="hero-title">S1GK1LL</h1>
+                <p class="hero-subtitle">Cybersecurity Research | CTF Writeups | Binary Exploitation</p>
+                <div class="hero-divider"></div>
+            </div>
+        </section>
+
+        <section class="profile-section">
+            <div class="container">
+                <div class="profile-container">
+                    <div class="profile-ring"></div>
+                    <div class="profile-ring"></div>
+                    <div class="profile-image">
+                        <img src="/images/profile/avatar.png" alt="S1GK1LL Profile">
+                    </div>
+                </div>
+                <h2 class="profile-name">The Silent Observer</h2>
+                <p class="profile-bio">Security Researcher | CTF Player | Binary Exploitation Specialist</p>
+                <p class="profile-quote">"In the depth of silence, vulnerabilities whisper"</p>
+            </div>
+        </section>
+
+        <section class="container">
+            <div class="search-container">
+                <input type="text" 
+                       id="search-input" 
+                       class="search-input" 
+                       placeholder="Search writeups, exploits, techniques..." 
+                       onkeypress="handleSearch(event)">
+                <button class="search-btn" onclick="performSearch()">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    </svg>
+                </button>
+            </div>
+        </section>
+
+        <section class="container" style="padding: 4rem 2rem;">
+            <div class="section-header">
+                <div class="section-line"></div>
+                <h2 class="section-title">Archives</h2>
+                <div class="section-line right"></div>
+            </div>
+            
+            <div class="categories-grid">
+                <div class="category-card" onclick="window.location.href='/writeups/#pwn'">
+                    <span class="category-icon">⚔️</span>
+                    <h3 class="category-name">Binary Exploitation</h3>
+                    <p class="category-desc">Stack overflows, heap exploitation, ROP chains, shellcoding</p>
+                    <span class="category-count">12 writeups →</span>
+                </div>
+                
+                <div class="category-card" onclick="window.location.href='/writeups/#web'">
+                    <span class="category-icon">🕸️</span>
+                    <h3 class="category-name">Web Exploitation</h3>
+                    <p class="category-desc">SQLi, XSS, SSRF, prototype pollution, authentication bypass</p>
+                    <span class="category-count">8 writeups →</span>
+                </div>
+                
+                <div class="category-card" onclick="window.location.href='/writeups/#reverse'">
+                    <span class="category-icon">🧩</span>
+                    <h3 class="category-name">Reverse Engineering</h3>
+                    <p class="category-desc">Malware analysis, binary reversing, obfuscation</p>
+                    <span class="category-count">6 writeups →</span>
+                </div>
+                
+                <div class="category-card" onclick="window.location.href='/writeups/#crypto'">
+                    <span class="category-icon">🔐</span>
+                    <h3 class="category-name">Cryptography</h3>
+                    <p class="category-desc">RSA attacks, AES, custom crypto flaws, oracle attacks</p>
+                    <span class="category-count">5 writeups →</span>
+                </div>
+                
+                <div class="category-card" onclick="window.location.href='/writeups/#forensics'">
+                    <span class="category-icon">🔍</span>
+                    <h3 class="category-name">Forensics</h3>
+                    <p class="category-desc">Memory dumps, network captures, steganography</p>
+                    <span class="category-count">4 writeups →</span>
+                </div>
+                
+                <div class="category-card" onclick="window.location.href='/writeups/#misc'">
+                    <span class="category-icon">⚡</span>
+                    <h3 class="category-name">Miscellaneous</h3>
+                    <p class="category-desc">OSINT, programming, hardware hacking, blockchain</p>
+                    <span class="category-count">7 writeups →</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="container" style="padding: 2rem 2rem 4rem;">
+            <div class="section-header">
+                <div class="section-line"></div>
+                <h2 class="section-title">Recent Scrolls</h2>
+                <div class="section-line right"></div>
+            </div>
+            
+            <div class="posts-list">
+
+
+
+
+                <article class="post-card" onclick="window.location.href='/writeups/pietime.html'">
+                       <div class="post-meta">
+                             <span class="post-category">pwn</span>
+                             <span class="post-date">2024-03-08</span>
+                       </div>
+                       <h3 class="post-title">pietime: PIE Bypass via Address Leak</h3>
+                       <p class="post-excerpt">Exploiting an information leak to defeat Position Independent Executable (PIE) and achieve ret2win in a picoCTF binary challenge.</p>
+                       <div class="post-tags">
+                            <span class="post-tag">#pwn</span>
+                            <span class="post-tag">#picoctf</span>
+                            <span class="post-tag">#pie</span>
+                            <span class="post-tag">#aslr-bypass</span>
+                            </div>
+                 </article>
+
+                <article class="post-card" onclick="window.location.href='/writeups/jwt-none-algorithm.html'">
+                    <div class="post-meta">
+                        <span class="post-category">Web</span>
+                        <span class="post-date">2024-03-10</span>
+                    </div>
+                    <h3 class="post-title">JWT None Algorithm Bypass</h3>
+                    <p class="post-excerpt">Exploiting the 'none' algorithm in JSON Web Tokens to bypass authentication mechanisms. A comprehensive guide to JWT security misconfigurations...</p>
+                    <div class="post-tags">
+                        <span class="post-tag">#jwt</span>
+                        <span class="post-tag">#authentication</span>
+                        <span class="post-tag">#cryptography</span>
+                    </div>
+                </article>
+
+                <article class="post-card" onclick="window.location.href='/writeups/rop-x64-chains.html'">
+                    <div class="post-meta">
+                        <span class="post-category">Pwn</span>
+                        <span class="post-date">2024-03-05</span>
+                    </div>
+                    <h3 class="post-title">Return Oriented Programming (ROP) on x64</h3>
+                    <p class="post-excerpt">Building ROP chains in modern x64 binaries with limited gadgets. Techniques for bypassing NX, ASLR, and stack canaries through creative gadget chaining...</p>
+                    <div class="post-tags">
+                        <span class="post-tag">#rop</span>
+                        <span class="post-tag">#x64</span>
+                        <span class="post-tag">#stack</span>
+                    </div>
+                </article>
+            </div>
+            
+            <div class="text-center mt-4">
+                <a href="/writeups/" style="color: var(--accent-gold); text-decoration: none; font-family: var(--font-mono);">View All Writeups →</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>S1GK1LL</h4>
+                <p>A digital archive of cybersecurity research and CTF writeups. Ancient wisdom meets modern exploitation.</p>
+                <div class="social-links">
+                    <a href="https://github.com" target="_blank" aria-label="GitHub">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+                        </svg>
+                    </a>
+                    <a href="https://twitter.com" target="_blank" aria-label="Twitter">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <p><a href="/writeups/">Writeups</a></p>
+                <p><a href="/research.html">Research</a></p>
+                <p><a href="/tools.html">Tools</a></p>
+                <p><a href="/about.html">About</a></p>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <p>Email: root@s1gkill.sec</p>
+                <p>PGP: 0xDEADBEEF</p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2024 S1GK1LL. All rights reserved. | 殺</p>
+        </div>
+    </footer>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>

