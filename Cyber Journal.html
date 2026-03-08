@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Journal | S1GK1LL</title>
+    <meta name="description" content="Deep technical analysis and security research papers">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=JetBrains+Mono:wght@400;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <style>
+        :root {
+            --gold-primary: #d4af37;
+            --gold-bright: #ffd700;
+            --gold-dim: #8b7355;
+            --dark-bg: #0a0a0a;
+            --dark-card: #111111;
+            --dark-border: #1a1a1a;
+            --text-primary: #e8e6e3;
+            --text-secondary: #a0a0a0;
+            --text-muted: #666666;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+        }
+
+        /* Hero Section */
+        .journal-hero {
+            padding: 6rem 0 4rem;
+            background: linear-gradient(180deg, var(--dark-bg) 0%, #0f0f0f 100%);
+            border-bottom: 1px solid var(--dark-border);
+            position: relative;
+        }
+
+        .journal-hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold-primary), transparent);
+        }
+
+        .hero-title {
+            font-family: 'Crimson Text', serif;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 600;
+            text-align: center;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-bright) 50%, var(--gold-primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+        }
+
+        .hero-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            margin: 3rem 0;
+            padding: 2rem;
+            background: var(--dark-card);
+            border: 1px solid var(--dark-border);
+            border-radius: 4px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--gold-primary);
+            font-family: 'JetBrains Mono', monospace;
+            display: block;
+            line-height: 1;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            margin-top: 0.5rem;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Paper Card */
+        .papers-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 6rem;
+        }
+
+        .paper-card {
+            background: var(--dark-card);
+            border: 1px solid var(--dark-border);
+            border-radius: 4px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .paper-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: var(--gold-primary);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .paper-card:hover {
+            border-color: var(--gold-dim);
+            box-shadow: 0 0 40px rgba(212, 175, 55, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .paper-card:hover::before {
+            opacity: 1;
+        }
+
+        .paper-card.expanded {
+            border-color: var(--gold-primary);
+            box-shadow: 0 0 60px rgba(212, 175, 55, 0.15);
+        }
+
+        .paper-header {
+            padding: 2rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .paper-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .paper-category {
+            background: rgba(212, 175, 55, 0.1);
+            color: var(--gold-primary);
+            padding: 0.35rem 0.75rem;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            font-size: 0.7rem;
+            font-family: 'JetBrains Mono', monospace;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            border-radius: 2px;
+        }
+
+        .paper-date {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .paper-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
+            line-height: 1.3;
+            font-family: 'Crimson Text', serif;
+            letter-spacing: 0.02em;
+        }
+
+        .paper-card:hover .paper-title {
+            color: var(--gold-primary);
+        }
+
+        .paper-toggle {
+            background: transparent;
+            border: 1px solid var(--dark-border);
+            color: var(--text-muted);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .paper-toggle:hover {
+            border-color: var(--gold-primary);
+            color: var(--gold-primary);
+        }
+
+        .paper-toggle.active {
+            background: var(--gold-primary);
+            border-color: var(--gold-primary);
+            color: var(--dark-bg);
+            transform: rotate(45deg);
+        }
+
+        /* Expandable Content */
+        .paper-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .paper-content.expanded {
+            max-height: 400px;
+        }
+
+        .paper-inner {
+            padding: 0 2rem 2rem;
+            border-top: 1px solid var(--dark-border);
+        }
+
+        .paper-abstract {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin: 1.5rem 0;
+            font-size: 1rem;
+            font-family: 'Crimson Text', serif;
+            font-style: italic;
+        }
+
+        .paper-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .paper-tag {
+            background: transparent;
+            color: var(--text-muted);
+            padding: 0.4rem 0.8rem;
+            border: 1px solid var(--dark-border);
+            font-size: 0.75rem;
+            font-family: 'JetBrains Mono', monospace;
+            text-transform: lowercase;
+            transition: all 0.3s;
+        }
+
+        .paper-tag:hover {
+            border-color: var(--gold-dim);
+            color: var(--gold-primary);
+        }
+
+        .paper-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn-cyber {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: transparent;
+            border: 1px solid var(--gold-primary);
+            color: var(--gold-primary);
+            padding: 0.75rem 1.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-cyber::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--gold-primary);
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+
+        .btn-cyber:hover {
+            color: var(--dark-bg);
+        }
+
+        .btn-cyber:hover::before {
+            left: 0;
+        }
+
+        .btn-cyber.secondary {
+            border-color: var(--dark-border);
+            color: var(--text-secondary);
+        }
+
+        .btn-cyber.secondary::before {
+            background: var(--text-secondary);
+        }
+
+        .btn-cyber.secondary:hover {
+            border-color: var(--text-primary);
+            color: var(--dark-bg);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .stats-bar {
+                gap: 2rem;
+                padding: 1.5rem;
+            }
+            
+            .stat-number {
+                font-size: 2rem;
+            }
+            
+            .paper-header {
+                padding: 1.5rem;
+            }
+            
+            .paper-title {
+                font-size: 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="nav-container">
+        <div class="nav-inner">
+            <a href="/" class="logo">
+                <div class="logo-icon"><span>𗉤</span></div>
+                S1GK1LL
+            </a>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
+            </button>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/writeups/">Writeups</a></li>
+                <li><a href="/Cyber Journal.html" class="active">Cyber Journal</a></li>
+                <li><a href="/tools.html">Tools</a></li>
+                <li><a href="/about.html">About</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <section class="journal-hero">
+            <div class="container">
+                <h1 class="hero-title">Cyber Journal</h1>
+                <p class="hero-subtitle">Research · Analysis · Exploitation</p>
+
+                <div class="stats-bar">
+                    <div class="stat-item">
+                        <span class="stat-number">01</span>
+                        <div class="stat-label">Papers</div>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">03</span>
+                        <div class="stat-label">Tags</div>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">∞</span>
+                        <div class="stat-label">Impact</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="papers-container">
+                
+                <article class="paper-card" data-category="web" data-title="The Dark Art of AI Hacking">
+                    <div class="paper-header" onclick="togglePaper(this)">
+                        <div style="flex: 1;">
+                            <div class="paper-meta">
+                                <span class="paper-category">Research</span>
+                                <span class="paper-date">March 09, 2026</span>
+                                <span class="paper-category">AI Security</span>
+                            </div>
+                            <h3 class="paper-title">THE DARK ART OF AI HACKING</h3>
+                        </div>
+                        <button class="paper-toggle">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 4v16m8-8H4"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="paper-content">
+                        <div class="paper-inner">
+                            <p class="paper-abstract">
+                                A comprehensive analysis of adversarial attacks, prompt injection, model extraction, and the emerging threat landscape targeting artificial intelligence systems.
+                            </p>
+                            <div class="paper-tags">
+                                <span class="paper-tag">ai</span>
+                                <span class="paper-tag">exploitation</span>
+                                <span class="paper-tag">techniques</span>
+                            </div>
+                            <div class="paper-actions">
+                                <a href="/Cyber Journal/thedarkartofaihacking.html" class="btn-cyber" onclick="event.stopPropagation();">
+                                    <span>→</span> Read Paper
+                                </a>
+                                <a href="/Cyber Journal/thedarkartofaihacking.html#references" class="btn-cyber secondary" onclick="event.stopPropagation();">
+                                    <span>◉</span> References
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>S1GK1LL</h4>
+                <p>Cybersecurity research and CTF archive</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 S1GK1LL | 殺</p>
+        </div>
+    </footer>
+
+    <script src="/js/main.js"></script>
+    <script>
+        function togglePaper(header) {
+            const card = header.parentElement;
+            const content = card.querySelector('.paper-content');
+            const toggle = header.querySelector('.paper-toggle');
+            
+            card.classList.toggle('expanded');
+            content.classList.toggle('expanded');
+            toggle.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

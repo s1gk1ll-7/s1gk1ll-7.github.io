@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Dark Art of AI Hacking | S1GK1LL</title>
+    <meta name="description" content="Comprehensive research on AI hacking techniques, adversarial attacks, and security vulnerabilities">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=JetBrains+Mono:wght@400;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- Additional styles for blog images and reading experience -->
+    <style>
+        /* Blog Article Layout Enhancements */
+        .blog-article {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+            line-height: 1.8;
+            color: var(--text-primary, #e0e0e0);
+        }
+
+        /* Typography for long-form reading */
+        .blog-article h1 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .blog-article h2 {
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            margin-top: 3rem;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent-color, #ff6b6b);
+            font-weight: 600;
+        }
+
+        .blog-article h3 {
+            font-size: clamp(1.25rem, 3vw, 1.5rem);
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-color, #ff6b6b);
+        }
+
+        .blog-article p {
+            margin-bottom: 1.5rem;
+            text-align: justify;
+            hyphens: auto;
+            font-size: clamp(1rem, 2.5vw, 1.125rem);
+        }
+
+        /* Image System - Add this to your external CSS */
+        .blog-image-container {
+            margin: 2.5rem 0;
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            background: var(--bg-secondary, #1a1a2e);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .blog-image-container:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4);
+        }
+
+        .blog-image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .blog-image-container:hover img {
+            transform: scale(1.02);
+        }
+
+        .blog-image-caption {
+            padding: 1rem 1.5rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary, #a0a0a0);
+            font-style: italic;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        /* Image variants */
+        .blog-image-container.wide {
+            max-width: 100vw;
+            margin-left: calc(-50vw + 50%);
+            margin-right: calc(-50vw + 50%);
+            border-radius: 0;
+        }
+
+        .blog-image-container.left {
+            float: left;
+            width: 45%;
+            margin: 0.5rem 2rem 1rem 0;
+            clear: left;
+        }
+
+        .blog-image-container.right {
+            float: right;
+            width: 45%;
+            margin: 0.5rem 0 1rem 2rem;
+            clear: right;
+        }
+
+        .blog-image-container.small {
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Responsive images */
+        @media (max-width: 768px) {
+            .blog-image-container.left,
+            .blog-image-container.right {
+                float: none;
+                width: 100%;
+                margin: 2rem 0;
+            }
+        }
+
+        /* Citations and references */
+        .citation {
+            color: var(--accent-color, #ff6b6b);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.85em;
+            vertical-align: super;
+            margin-left: 2px;
+        }
+
+        .citation:hover {
+            text-decoration: underline;
+        }
+
+        /* Blockquotes for emphasis */
+        .blog-article blockquote {
+            margin: 2rem 0;
+            padding: 1.5rem 2rem;
+            border-left: 4px solid var(--accent-color, #ff6b6b);
+            background: var(--bg-secondary, #1a1a2e);
+            font-style: italic;
+            font-size: 1.1em;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* Lists styling */
+        .blog-article ul, .blog-article ol {
+            margin-bottom: 1.5rem;
+            padding-left: 2rem;
+        }
+
+        .blog-article li {
+            margin-bottom: 0.75rem;
+            line-height: 1.7;
+        }
+
+        /* Code blocks */
+        .blog-article code {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.2em 0.4em;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9em;
+        }
+
+        /* Reading progress indicator */
+        .reading-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--accent-color, #ff6b6b);
+            z-index: 1000;
+            transition: width 0.1s;
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Selection color */
+        ::selection {
+            background: var(--accent-color, #ff6b6b);
+            color: white;
+        }
+    </style>
+</head>
+<body class="bg-pattern">
+
+    <!-- Reading Progress Bar -->
+    <div class="reading-progress" id="reading-progress"></div>
+
+    <nav class="nav-container">
+        <div class="nav-inner">
+            <a href="/" class="logo">
+                <div class="logo-icon"><span>𗉤</span></div>
+                S1GK1LL
+            </a>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
+            </button>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/writeups/" class="active">Writeups</a></li>
+                <li><a href="/Cyber Journal.html">Cyber Journal</a></li>
+                <li><a href="/tools.html">Tools</a></li>
+                <li><a href="/about.html">About</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <article class="blog-article">
+            
+            <!-- Header Section -->
+            <header style="margin-bottom: 3rem; text-align: center;">
+                <div class="post-meta" style="justify-content: center; margin-bottom: 1rem;">
+                    <span class="post-category">Research</span>
+                    <span class="post-date">March 9, 2026</span>
+                    <span class="post-category" style="background: var(--accent-color); color: white;">AI Security</span>
+                </div>
+                <h1 style="margin-bottom: 1rem;">The Dark Art of AI Hacking</h1>
+                <p style="color: var(--text-secondary); font-size: 1.25rem; font-style: italic; max-width: 600px; margin: 0 auto;">
+                    A comprehensive analysis of adversarial attacks, prompt injection, model extraction, and the emerging threat landscape targeting artificial intelligence systems
+                </p>
+            </header>
+
+            <!-- Hero Image Example -->
+            <div class="blog-image-container wide">
+                <img src="/images/darkai.png" alt="Abstract visualization of neural network vulnerabilities and adversarial attacks" loading="lazy">
+                <div class="blog-image-caption">
+                    Figure 1: Conceptual visualization of adversarial perturbations in deep neural networks. 
+                    Image: Modified from MIT ATLAS framework research.
+                </div>
+            </div>
+
+            <!-- Introduction -->
+            <p>
+                The attack surface of artificial intelligence systems extends far beyond traditional cybersecurity boundaries. Unlike conventional software vulnerabilities, AI systems are vulnerable at every stage of their lifecycle—from data collection through training, deployment, and inference. According to recent research from MIT and Stanford, AI systems face <strong>14 distinct categories of security risks</strong>, ranging from hardware-level exploits to high-level algorithmic manipulation<a href="#ref-5" class="citation">[5]</a>.
+            </p>
+
+            <p>
+                The unique nature of AI hacking lies in its <strong>dual exploitation potential</strong>: attackers can target either the infrastructure (traditional cybersecurity) or the intelligence itself (algorithmic manipulation). This creates a threat landscape where adversaries don't just steal data—they can fundamentally alter system behavior, implant sleeper triggers, or extract intellectual property worth billions.
+            </p>
+
+            <!-- Section I -->
+            <h2>I. Prompt Injection: The Most Accessible Vector</h2>
+            
+            <h3>Direct and Indirect Prompt Injection</h3>
+            
+            <p>
+                Prompt injection represents the most democratized form of AI hacking, requiring minimal technical expertise while offering maximum impact. Research from Nanyang Technological University introduced <strong>HouYi</strong>, a black-box prompt injection attack framework inspired by traditional web injection attacks<a href="#ref-3" class="citation">[3]</a>. This technique decomposes attacks into three elements: a pre-constructed prompt for seamless incorporation, an injection prompt inducing context partition, and a malicious payload designed to fulfill attack objectives.
+            </p>
+
+ 
+            <p>
+                The HouYi framework achieved <strong>86% success rates</strong> across 36 real-world LLM-integrated applications, including major platforms like Notion, demonstrating that even production systems with millions of users remain vulnerable<a href="#ref-3" class="citation">[3]</a>. The attack enables unrestricted arbitrary LLM usage and straightforward application prompt theft—critical intellectual property for many AI startups.
+            </p>
+
+            <h3>Clinical and High-Stakes Exploitation</h3>
+            
+            <p>
+                Perhaps the most alarming research comes from JAMA Network Open, which evaluated prompt injection in <strong>medical advice scenarios</strong><a href="#ref-4" class="citation">[4]</a>. In controlled simulations of 216 patient-LLM dialogues, webhook-simulated prompt-injection attacks succeeded in <strong>94.4% of trials</strong>, including <strong>91.7% of extremely high-harm scenarios</strong> involving FDA Category X pregnancy drugs like thalidomide.
+            </p>
+
+            <blockquote>
+                "Even the most advanced safety mechanisms showed 100% vulnerability for GPT-5 and Gemini 2.5 Pro, with Claude 4.5 Sonnet showing 80% susceptibility."
+                <br>— <em>JAMA Network Open, 2025</em>
+            </blockquote>
+
+            <p>
+                The study tested lightweight models (GPT-4o-mini, Gemini-2.0-flash-lite, Claude-3-haiku) and flagship models (GPT-5, Gemini 2.5 Pro, Claude 4.5 Sonnet). Even the most advanced safety mechanisms showed <strong>100% vulnerability</strong> for GPT-5 and Gemini 2.5 Pro, with Claude 4.5 Sonnet showing 80% susceptibility<a href="#ref-4" class="citation">[4]</a>. This research proves that current commercial safeguards are insufficient to prevent clinically hazardous outputs, raising urgent questions about patient-facing AI deployment.
+            </p>
+
+            <!-- Full Width Image Example -->
+   
+
+            <!-- Section II -->
+            <h2>II. Data Poisoning: The Invisible Corruption</h2>
+            
+            <h3>Training Pipeline Compromise</h3>
+            
+            <p>
+                Data poisoning attacks represent perhaps the most insidious threat because they occur <strong>before the model even exists</strong> in its deployed form. According to a comprehensive survey from University of Maryland and Tsinghua University, these attacks exploit vulnerabilities in data acquisition pipelines—reliance on open-source datasets, web scraping, or third-party data vendors<a href="#ref-14" class="citation">[14]</a>.
+            </p>
+
+            <p>
+                The attack pipeline follows four stages: <strong>Data Collection</strong> (exploiting pipeline vulnerabilities), <strong>Data Poisoning</strong> (crafting malicious samples to evade detection), <strong>Model Contamination</strong> (skewing the learning process), and <strong>Evaluation/Deployment</strong> (activating vulnerabilities post-deployment)<a href="#ref-14" class="citation">[14]</a>.
+            </p>
+
+            <h3>Taxonomy of Poisoning Strategies</h3>
+            
+            <p>Research categorizes poisoning attacks along seven dimensions:</p>
+            
+            <ul>
+                <li><strong>Label Modification:</strong> Altering labels while keeping input features unchanged (label-flipping attacks)</li>
+                <li><strong>Input Modification:</strong> Perturbing input features while preserving original labels (clean-label attacks)</li>
+                <li><strong>Data Modification:</strong> Direct manipulation of training data structure</li>
+                <li><strong>Untargeted Attacks:</strong> Degrading overall model performance and usability</li>
+                <li><strong>Targeted Attacks:</strong> Misleading the model on specific samples while preserving general performance</li>
+                <li><strong>Backdoor Attacks:</strong> Embedding trigger patterns that activate malicious behavior only under specific conditions</li>
+            </ul>
+
+     
+
+            <p>
+                The <strong>BadNets</strong> attack demonstrated that injecting a small number of poisoned samples with embedded triggers could implant effective backdoors, while <strong>Feature Collision</strong> attacks generate adversarial examples aligned with target samples in feature space, causing misclassification during inference<a href="#ref-14" class="citation">[14]</a>.
+            </p>
+
+            <p>
+                For prompt tuning specifically, the <strong>POISONPROMPT</strong> attack achieves <strong>over 90% attack success rates</strong> while maintaining high performance on standard tasks. This bi-level optimization approach trains backdoor behavior concurrently with prompt tuning, activating only when specific trigger phrases appear<a href="#ref-14" class="citation">[14]</a>.
+            </p>
+
+            <!-- Section III -->
+            <h2>III. Model Extraction: Intellectual Property Theft</h2>
+            
+            <h3>Functionality Replication Attacks</h3>
+            
+            <p>
+                Model extraction attacks (MEAs) focus on recreating target model behavior, essentially <strong>stealing intellectual property</strong> without incurring development costs. Research from UC Santa Barbara and IBM demonstrates that BERT-based APIs are vulnerable to such attacks even with limited access, enabling high-fidelity copies that compromise competitive advantage<a href="#ref-13" class="citation">[13]</a>.
+            </p>
+
+        
+
+            <p>
+                The <strong>dual threat</strong> is particularly concerning: attackers can simultaneously extract model functionality <strong>and</strong> infer sensitive attributes from training data. Transformer architectures are especially vulnerable because their self-attention mechanisms can be exploited to reconstruct private text data<a href="#ref-13" class="citation">[13]</a>.
+            </p>
+
+            <h3>Vision Model Extraction</h3>
+            
+            <p>
+                Vision models face <strong>data-free extraction attacks</strong> where adversaries reconstruct functionality without any real training data. The <strong>MAZE</strong> attack uses zeroth-order gradient estimation, while generative adversarial networks synthesize queries maximizing discrepancy between target and substitute models. These techniques circumvent data access restrictions and privacy protections entirely<a href="#ref-13" class="citation">[13]</a>.
+            </p>
+
+            <!-- Section IV -->
+            <h2>IV. Adversarial Examples: The Subtle Deception</h2>
+            
+            <h3>Physical World Attacks</h3>
+            
+            <p>
+                Adversarial patch attacks have moved beyond digital manipulation into <strong>physical-world exploitation</strong>. Research on cargo occupancy estimation systems demonstrated that 3D-optimized patches achieve <strong>84.94% success rates</strong> in denial-of-service scenarios (empty to full), while concealment attacks (full to empty) reached <strong>30.32% success</strong><a href="#ref-12" class="citation">[12]</a>.
+            </p>
+
+       
+
+            <h3>Autonomous Vehicle Exploitation</h3>
+            
+            <p>
+                A comprehensive taxonomy of system-level attacks on autonomous vehicles reveals <strong>19 distinct attack papers</strong> targeting deep learning components<a href="#ref-15" class="citation">[15]</a>. The <strong>SlowTrack</strong> framework increases execution time of camera-based perception by inserting fake bounding boxes, achieving <strong>95% success rates</strong> in causing vehicle crashes<a href="#ref-15" class="citation">[15]</a>.
+            </p>
+
+            <p>Attack methodologies include:</p>
+            
+            <ul>
+                <li><strong>DeepManeuver:</strong> Manipulating steering angle prediction by installing perturbations on billboards</li>
+                <li><strong>Kidnapping Drones:</strong> Using optimized flying adversarial patches to hijack multi-rotor drones</li>
+                <li><strong>Laser-based Attacks:</strong> Directing laser beams toward cameras to cause sensor interference</li>
+                <li><strong>Backdoor Injection:</strong> Poisoning training data to implant sleeper triggers</li>
+            </ul>
+
+            <!-- Section V -->
+            <h2>V. Hardware and Infrastructure Attacks</h2>
+            
+            <h3>Rowhammer: The Physical Layer</h3>
+            
+            <p>
+                Rowhammer attacks exploit <strong>hardware-level vulnerabilities</strong> in DRAM modules, causing unauthorized bit flips through repeated memory access. Unlike software attacks, Rowhammer targets the physical memory cells storing AI model parameters, compromising both predictive and generative models<a href="#ref-1" class="citation">[1]</a>.
+            </p>
+
+      
+            <p>
+                The <strong>DeepSteal</strong> attack exploited Rowhammer-induced bit flips to remotely extract partial weights from neural network models, enabling unauthorized replication. <strong>FrameFlip</strong> demonstrated universal depletion of deep neural network inference performance by injecting faults into runtime code without requiring knowledge of internal structures<a href="#ref-1" class="citation">[1]</a>.
+            </p>
+
+            <p>
+                Research shows that <strong>even a single bit flip</strong> can significantly degrade or alter neural network performance, highlighting the sensitivity of AI inference to hardware-level perturbations.
+            </p>
+
+            <!-- Section VI -->
+            <h2>VI. AI Supply Chain Compromise</h2>
+            
+            <h3>The Dependency Crisis</h3>
+            
+            <p>
+                Analysis of <strong>10,000 open-source AI/ML repositories</strong> reveals <strong>70% contain critical or high-severity vulnerabilities</strong> in GitHub Actions workflows<a href="#ref-9" class="citation">[9]</a>. These vulnerabilities enable code injection, credential theft, and repository takeover via malicious pull requests.
+            </p>
+
+            <blockquote>
+                "70% of open-source AI/ML repositories contain critical or high-severity vulnerabilities in GitHub Actions workflows, enabling supply chain attacks on model uploads and training pipelines."
+                <br>— <em>Mitiga Security Research, 2025</em>
+            </blockquote>
+
+            <p><strong>Top vulnerabilities include:</strong></p>
+            
+            <ul>
+                <li><strong>Unpinned third-party actions</strong> (68.4% prevalence): Easy supply chain attacks on model uploads/training</li>
+                <li><strong>Script/command injection</strong> (34.1%): Exploiting PR titles/bodies to steal tokens like HF_TOKEN</li>
+                <li><strong>Over-privileged GITHUB_TOKEN</strong> (42.7%): Unnecessary write access enables model/release poisoning</li>
+                <li><strong>Unsafe triggers</strong> (27.2%): Running untrusted fork code with full permissions</li>
+                <li><strong>Hard-coded secrets</strong> (22.8%): Exposing cloud credentials for datasets/GPUs</li>
+            </ul>
+
+            <!-- Section VII -->
+            <h2>VII. Conclusion: The Asymmetric Warfare of AI Hacking</h2>
+            
+     
+            <p>
+                The dark art of AI hacking represents a fundamental shift in cybersecurity—one where <strong>the intelligence itself becomes the battleground</strong>. Unlike traditional software vulnerabilities that require exploiting coding errors, AI hacking manipulates the statistical foundations of learning systems. This creates an asymmetric environment where attackers need minimal resources to compromise systems worth billions.
+            </p>
+
+            <p>
+                The research demonstrates that <strong>no layer of the AI stack is secure</strong>: from hardware (Rowhammer) to data (poisoning), from training (extraction) to inference (prompt injection), from supply chain (dependencies) to physical world (adversarial patches). Perhaps most concerning is the <strong>democratization of these attacks</strong>—prompt injection requires no technical expertise, while model extraction can be performed through simple API queries.
+            </p>
+
+            <p>
+                As AI systems become increasingly critical infrastructure—handling medical advice, autonomous navigation, financial decisions, and national security—the stakes of these vulnerabilities extend far beyond data breaches. They represent <strong>existential threats to the trustworthiness of artificial intelligence itself</strong>.
+            </p>
+
+            <!-- References Section -->
+            <h2>References</h2>
+            
+            <ol style="font-size: 0.9rem; line-height: 1.6;">
+                <li id="ref-1">Securing AI Systems: A Guide to Known Attacks and Impacts. arXiv, 2025.</li>
+                <li id="ref-3">Yi Liu, et al. "Prompt Injection attack against LLM-integrated Applications." arXiv:2306.05499, 2023-2024.</li>
+                <li id="ref-4">"Vulnerability of LLMs to Prompt Injection When Providing Medical Advice." JAMA Network Open, 2025.</li>
+                <li id="ref-5">"Top 14 AI Security Risks in 2026." SentinelOne, 2026.</li>
+                <li id="ref-6">"What is AI Red Teaming? Testing AI/LLM Vulnerabilities." Cobalt, 2025.</li>
+                <li id="ref-7">Google guidance on AI supply chain security. Google Cloud, 2025.</li>
+                <li id="ref-8">"What is AI Red Teaming? The Complete Guide." Mindgard, 2025.</li>
+                <li id="ref-9">"Inside the AI Supply Chain: Security Lessons from 10,000 Open-Source ML Projects." Mitiga, 2025.</li>
+                <li id="ref-10">"CISO's Expert Guide To AI Supply Chain Attacks." The Hacker News, 2025.</li>
+                <li id="ref-11">"LLM Red Teaming: The Complete Step-By-Step Guide." Confident AI, 2026.</li>
+                <li id="ref-12">"Adversarial Patch Attacks on Vision-Based Cargo Occupancy Estimation." arXiv, 2025.</li>
+                <li id="ref-13">"A Systematic Survey of Model Extraction Attacks and Defenses." arXiv, 2025.</li>
+                <li id="ref-14">"Data Poisoning in Deep Learning: A Survey." arXiv, 2025.</li>
+                <li id="ref-15">"A Taxonomy of System-Level Attacks on Deep Learning Models in Autonomous Vehicles." arXiv, 2024.</li>
+                <li id="ref-16">"A Survey on Model Extraction Attacks and Defenses for Large Language Models." arXiv, 2025.</li>
+                <li id="ref-17">"AI Model Theft: Risks and Prevention." NextLabs, 2026.</li>
+            </ol>
+
+        </article>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>S1GK1LL</h4>
+                <p>Cybersecurity Cyber Journal and CTF archive</p>
+            </div>
+            <div class="footer-section">
+                <h4>Links</h4>
+                <p><a href="/">Home</a></p>
+                <p><a href="/writeups/">Writeups</a></p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 S1GK1LL | 殺</p>
+        </div>
+    </footer>
+
+    <script src="/js/main.js"></script>
+    <script>
+        // Reading Progress Bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('reading-progress').style.width = scrolled + "%";
+        });
+    </script>
+</body>
+</html>

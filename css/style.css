@@ -33,6 +33,275 @@
     box-sizing: border-box;
 }
 
+/* ============================================
+   BLOG ARTICLE ENHANCEMENTS
+   Add these to your existing style.css
+   ============================================ */
+
+/* Blog Container */
+.blog-article {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+    line-height: 1.8;
+    color: var(--text-primary, #e0e0e0);
+    font-family: 'Crimson Text', 'Noto Serif SC', serif;
+}
+
+/* Typography Scale */
+.blog-article h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+}
+
+.blog-article h2 {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    margin-top: 3rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--accent-color, #ff6b6b);
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.blog-article h3 {
+    font-size: clamp(1.25rem, 3vw, 1.5rem);
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--accent-color, #ff6b6b);
+    font-weight: 600;
+}
+
+.blog-article p {
+    margin-bottom: 1.5rem;
+    text-align: justify;
+    hyphens: auto;
+    font-size: clamp(1rem, 2.5vw, 1.125rem);
+    line-height: 1.8;
+}
+
+/* ============================================
+   BLOG IMAGE SYSTEM
+   ============================================ */
+
+.blog-image-container {
+    margin: 2.5rem 0;
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--bg-secondary, #1a1a2e);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.blog-image-container:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4);
+    border-color: rgba(255, 107, 107, 0.2);
+}
+
+.blog-image-container img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+.blog-image-container:hover img {
+    transform: scale(1.02);
+}
+
+.blog-image-caption {
+    padding: 1rem 1.5rem;
+    font-size: 0.9rem;
+    color: var(--text-secondary, #a0a0a0);
+    font-style: italic;
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.2);
+    font-family: 'Inter', sans-serif;
+}
+
+/* Image Layout Variants */
+
+/* Full width breaking container */
+.blog-image-container.wide {
+    max-width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+}
+
+/* Left aligned float */
+.blog-image-container.left {
+    float: left;
+    width: 45%;
+    margin: 0.5rem 2rem 1rem 0;
+    clear: left;
+}
+
+/* Right aligned float */
+.blog-image-container.right {
+    float: right;
+    width: 45%;
+    margin: 0.5rem 0 1rem 2rem;
+    clear: right;
+}
+
+/* Small centered */
+.blog-image-container.small {
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Responsive behavior */
+@media (max-width: 768px) {
+    .blog-image-container.left,
+    .blog-image-container.right {
+        float: none;
+        width: 100%;
+        margin: 2rem 0;
+    }
+    
+    .blog-image-container.wide {
+        margin-left: -1.5rem;
+        margin-right: -1.5rem;
+        max-width: calc(100% + 3rem);
+    }
+}
+
+/* ============================================
+   BLOG COMPONENTS
+   ============================================ */
+
+/* Citations */
+.citation {
+    color: var(--accent-color, #ff6b6b);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.85em;
+    vertical-align: super;
+    margin-left: 2px;
+    transition: opacity 0.2s;
+}
+
+.citation:hover {
+    opacity: 0.8;
+    text-decoration: underline;
+}
+
+/* Blockquotes */
+.blog-article blockquote {
+    margin: 2rem 0;
+    padding: 1.5rem 2rem;
+    border-left: 4px solid var(--accent-color, #ff6b6b);
+    background: var(--bg-secondary, #1a1a2e);
+    font-style: italic;
+    font-size: 1.1em;
+    border-radius: 0 8px 8px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.blog-article blockquote::before {
+    content: '"';
+    position: absolute;
+    top: -0.5rem;
+    left: 0.5rem;
+    font-size: 4rem;
+    color: var(--accent-color);
+    opacity: 0.2;
+    font-family: Georgia, serif;
+}
+
+/* Lists */
+.blog-article ul,
+.blog-article ol {
+    margin-bottom: 1.5rem;
+    padding-left: 2rem;
+}
+
+.blog-article li {
+    margin-bottom: 0.75rem;
+    line-height: 1.7;
+}
+
+/* Inline code */
+.blog-article code {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.2em 0.4em;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9em;
+    color: var(--accent-color, #ff6b6b);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Strong emphasis */
+.blog-article strong {
+    color: var(--accent-color, #ff6b6b);
+    font-weight: 600;
+}
+
+/* Reading Progress Bar */
+.reading-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background: var(--accent-color, #ff6b6b);
+    z-index: 1000;
+    transition: width 0.1s linear;
+    box-shadow: 0 0 10px var(--accent-color, #ff6b6b);
+}
+
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Selection styling */
+::selection {
+    background: var(--accent-color, #ff6b6b);
+    color: white;
+    text-shadow: none;
+}
+
+/* Focus styles for accessibility */
+.blog-article a:focus,
+.citation:focus {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
+}
+
+/* Print styles */
+@media print {
+    .reading-progress,
+    .nav-container,
+    footer {
+        display: none;
+    }
+    
+    .blog-article {
+        max-width: 100%;
+        color: #000;
+    }
+    
+    .blog-image-container {
+        break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #ccc;
+    }
+}
+
 html {
     scroll-behavior: smooth;
     background-color: var(--bg-primary);
