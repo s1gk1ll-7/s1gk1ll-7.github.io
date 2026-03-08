@@ -11,7 +11,7 @@
     --bg-card: #0d0d0d;
     
     --accent-gold: #D4AF37;
-    --accent-red: #ff003c;
+    --accent-red: #ff0000;
     --accent-jade: #00A86B;
     --accent-cyan: #00d4ff;
     
@@ -184,7 +184,7 @@
 
 /* Citations */
 .citation {
-    color: var(--accent-color, #ff6b6b);
+    color: var(--accent-color, #ffd700);
     text-decoration: none;
     font-weight: 600;
     font-size: 0.85em;
@@ -202,7 +202,7 @@
 .blog-article blockquote {
     margin: 2rem 0;
     padding: 1.5rem 2rem;
-    border-left: 4px solid var(--accent-color, #ff6b6b);
+    border-left: 4px solid var(--accent-color, #ffd700);
     background: var(--bg-secondary, #1a1a2e);
     font-style: italic;
     font-size: 1.1em;
@@ -241,13 +241,13 @@
     border-radius: 4px;
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.9em;
-    color: var(--accent-color, #ff6b6b);
+    color: var(--accent-color, #ffd700);
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* Strong emphasis */
 .blog-article strong {
-    color: var(--accent-color, #ff6b6b);
+    color: var(--accent-color, #ffd700);
     font-weight: 600;
 }
 
