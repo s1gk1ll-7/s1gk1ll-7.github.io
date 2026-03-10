@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Art of Scanning: Discovering the Hidden Digital World | S1GK1LL</title>
+    <meta name="description" content="Comprehensive cybersecurity guide to network reconnaissance, vulnerability assessment, and digital cartography - from TCP/IP fundamentals to advanced evasion techniques">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=JetBrains+Mono:wght@400;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .blog-article {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+            line-height: 1.8;
+            color: var(--text-primary, #e0e0e0);
+        }
+
+        .blog-article h1 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .blog-article h2 {
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            margin-top: 3rem;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent-color, #ffd700);
+            font-weight: 600;
+        }
+
+        .blog-article h3 {
+            font-size: clamp(1.25rem, 3vw, 1.5rem);
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-color, #ffd700);
+        }
+
+        .blog-article h4 {
+            font-size: 1.1rem;
+            margin-top: 2rem;
+            margin-bottom: 0.75rem;
+            color: var(--accent-color, #ffd700);
+            font-weight: 600;
+        }
+
+        .blog-article p {
+            margin-bottom: 1.5rem;
+            text-align: justify;
+            hyphens: auto;
+            font-size: clamp(1rem, 2.5vw, 1.125rem);
+        }
+
+        .blog-image-container {
+            margin: 2.5rem 0;
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            background: var(--bg-secondary, #1a1a2e);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .blog-image-container:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4);
+        }
+
+        .blog-image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .blog-image-container:hover img {
+            transform: scale(1.02);
+        }
+
+        .blog-image-caption {
+            padding: 1rem 1.5rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary, #a0a0a0);
+            font-style: italic;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .blog-image-container.wide {
+            max-width: 100vw;
+            margin-left: calc(-50vw + 50%);
+            margin-right: calc(-50vw + 50%);
+            border-radius: 0;
+        }
+
+        .blog-image-container.left {
+            float: left;
+            width: 45%;
+            margin: 0.5rem 2rem 1rem 0;
+            clear: left;
+        }
+
+        .blog-image-container.right {
+            float: right;
+            width: 45%;
+            margin: 0.5rem 0 1rem 2rem;
+            clear: right;
+        }
+
+        .blog-image-container.small {
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @media (max-width: 768px) {
+            .blog-image-container.left,
+            .blog-image-container.right {
+                float: none;
+                width: 100%;
+                margin: 2rem 0;
+            }
+        }
+
+        .citation {
+            color: var(--accent-color, #ffd700);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.85em;
+            vertical-align: super;
+            margin-left: 2px;
+        }
+
+        .citation:hover {
+            text-decoration: underline;
+        }
+
+        .blog-article blockquote {
+            margin: 2rem 0;
+            padding: 1.5rem 2rem;
+            border-left: 4px solid var(--accent-color, #ffd700);
+            background: var(--bg-secondary, #1a1a2e);
+            font-style: italic;
+            font-size: 1.1em;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .blog-article ul, .blog-article ol {
+            margin-bottom: 1.5rem;
+            padding-left: 2rem;
+        }
+
+        .blog-article li {
+            margin-bottom: 0.75rem;
+            line-height: 1.7;
+        }
+
+        .blog-article code {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.2em 0.4em;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9em;
+            color: #ffd700;
+        }
+
+        .tech-box {
+            background: rgba(255, 215, 0, 0.05);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+        }
+
+        .tech-box h4 {
+            color: var(--accent-color, #ffd700);
+            margin-top: 0;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+            margin: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--accent-color, #ffd700);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+            padding-left: 1.5rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -1.6rem;
+            top: 0.5rem;
+            width: 12px;
+            height: 12px;
+            background: var(--accent-color, #ffd700);
+            border-radius: 50%;
+        }
+
+        .timeline-date {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-color, #ffd700);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .reading-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--accent-color, #ffd700);
+            z-index: 1000;
+            transition: width 0.1s;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        ::selection {
+            background: var(--accent-color, #ffd700);
+            color: white;
+        }
+
+        .command-block {
+            background: #0d0d0d;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .command-block::before {
+            content: '$';
+            color: #ffd700;
+            margin-right: 0.5rem;
+            font-weight: bold;
+        }
+
+        .output-block {
+            background: #0d0d0d;
+            border-left: 3px solid #ffd700;
+            border-radius: 0 8px 8px 0;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+            color: #a0a0a0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            font-size: 0.9rem;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        th {
+            background: rgba(255, 215, 0, 0.1);
+            color: #ffd700;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .warning-box {
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid rgba(255, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .warning-box h4 {
+            color: #ff4444;
+            margin-top: 0;
+        }
+
+        .tip-box {
+            background: rgba(0, 255, 0, 0.05);
+            border: 1px solid rgba(0, 255, 0, 0.3);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .tip-box h4 {
+            color: #44ff44;
+            margin-top: 0;
+        }
+
+        .chapter-nav {
+            position: sticky;
+            top: 80px;
+            float: right;
+            width: 250px;
+            margin-left: 2rem;
+            margin-right: -300px;
+            background: rgba(26, 26, 46, 0.9);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+            font-size: 0.85rem;
+            max-height: calc(100vh - 100px);
+            overflow-y: auto;
+        }
+
+        .chapter-nav ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .chapter-nav li {
+            margin-bottom: 0.5rem;
+        }
+
+        .chapter-nav a {
+            color: #a0a0a0;
+            text-decoration: none;
+            display: block;
+            padding: 0.25rem 0;
+            transition: color 0.2s;
+        }
+
+        .chapter-nav a:hover {
+            color: #ffd700;
+        }
+
+        @media (max-width: 1200px) {
+            .chapter-nav {
+                display: none;
+            }
+        }
+
+        .checklist {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .checklist li {
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .checklist li::before {
+            content: '☐';
+            position: absolute;
+            left: 0;
+            color: #ffd700;
+        }
+    </style>
+</head>
+<body class="bg-pattern">
+
+    <div class="reading-progress" id="reading-progress"></div>
+
+    <nav class="nav-container">
+        <div class="nav-inner">
+            <a href="/" class="logo">
+                <div class="logo-icon"><span>𗉤</span></div>
+                S1GK1LL
+            </a>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
+            </button>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/writeups/" class="active">Writeups</a></li>
+                <li><a href="/Cyber Journal.html">Cyber Journal</a></li>
+                <li><a href="/tools.html">Tools</a></li>
+                <li><a href="/about.html">About</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <article class="blog-article">
+            
+            <header style="margin-bottom: 3rem; text-align: center;">
+                <div class="post-meta" style="justify-content: center; margin-bottom: 1rem;">
+                    <span class="post-category">Network Security</span>
+                    <span class="post-date">March 10, 2026</span>
+                    <span class="post-category" style="background: var(--accent-color); color: white;">Advanced</span>
+                </div>
+                <h1 style="margin-bottom: 1rem;">The Art of Scanning: Discovering the Hidden Digital World</h1>
+                <p style="color: var(--text-secondary); font-size: 1.25rem; font-style: italic; max-width: 600px; margin: 0 auto;">
+                    A Comprehensive Cybersecurity Guide to Network Reconnaissance, Vulnerability Assessment, and Digital Cartography
+                </p>
+            </header>
+
+            <div class="blog-image-container wide">
+                <img src="/images/artofscaning.png" alt="Abstract visualization of network scanning with data packets flowing through dark cyberspace" loading="lazy">
+                <div class="blog-image-caption">
+                    Figure 1: The Digital Cartographer's View — Mapping invisible territories through systematic packet analysis and protocol interrogation.
+                </div>
+            </div>
+
+            <h2 id="introduction">I. Introduction — The Philosophy of Scanning</h2>
+            
+            <h3>What is Digital Scanning?</h3>
+            
+            <p>
+                Digital scanning in cybersecurity is the systematic process of probing networks, systems, and applications to discover active hosts, open ports, running services, and potential vulnerabilities. It is the <strong>cartography of the digital realm</strong>—a methodical mapping of invisible territories that exist in the ethereal space of packets, protocols, and connections<a href="#ref-1" class="citation">[1]</a>.
+            </p>
+
+            <p>
+                To understand scanning is to understand the fundamental nature of networked computing. Every device connected to a network, whether a massive cloud infrastructure or a humble IoT thermostat, communicates through standardized protocols. These protocols, by their very design, must respond to certain stimuli. Scanning is the art of sending precisely crafted stimuli and interpreting the responses—or the silences—to build an intelligence picture of the target environment.
+            </p>
+
+            <blockquote>
+                "Know your enemy and know yourself, and you will not be imperiled in a hundred battles."
+                <br>— <em>Sun Tzu, The Art of War</em>
+            </blockquote>
+
+            <p>
+                The philosophy of scanning rests on several pillars: <strong>Reconnaissance as Foundation</strong>—before any defensive architecture can be hardened or any penetration test conducted, the terrain must be understood. You cannot protect what you cannot see, and you cannot attack what you cannot find. <strong>The Signal in the Noise</strong>—modern networks generate millions of packets per second; scanning creates specific signals that cut through this noise. <strong>The Ethics of Visibility</strong>—the ability to map networks carries the obligation to do so ethically, legally, and with minimal disruption<a href="#ref-2" class="citation">[2]</a>.
+            </p>
+
+            <h3>The Scanning Mindset</h3>
+            
+            <p>
+                Before touching a single tool, the aspiring scanning expert must develop a particular mindset: <strong>Systematic Curiosity</strong>—scanning is not random probing but methodical investigation. <strong>Protocol Intimacy</strong>—deep knowledge of TCP/IP, UDP, ICMP, and application-layer protocols is non-negotiable. <strong>Temporal Awareness</strong>—networks are not static; a scan is a snapshot in time. <strong>Adversarial Thinking</strong>—think like both attacker and defender to reveal blind spots.
+            </p>
+
+            <h2 id="theoretical">II. Theoretical Foundations</h2>
+            
+            <h3>The TCP/IP Protocol Suite: The Scanner's Battlefield</h3>
+            
+            <p>
+                To master scanning, one must first master the protocols that govern network communication. The TCP/IP model provides the framework upon which all scanning techniques are built<a href="#ref-3" class="citation">[3]</a>.
+            </p>
+
+            <div class="blog-image-container right">
+                <img src="/images/tcp-header.png" alt="TCP header structure showing flags and fields" loading="lazy">
+                <div class="blog-image-caption">
+                    Figure 2: TCP Header Structure — The scanner's playground of flags, sequence numbers, and window sizes.
+                </div>
+            </div>
+
+            <h4>The Internet Protocol (IP) Layer</h4>
+            
+            <p>
+                IP is the postal system of the internet. For the scanner, understanding IP means understanding how to reach targets and how packets might be filtered in transit. Key fields include:
+            </p>
+
+            <ul>
+                <li><strong>TTL (Time To Live):</strong> Different OSs use different default values—64 for Linux, 128 for Windows, 255 for Cisco. TTL analysis reveals both distance (hops) and target OS.</li>
+                <li><strong>Fragmentation Fields:</strong> Identification, Flags, and Fragment Offset control packet fragmentation—used for evasion and fingerprinting.</li>
+                <li><strong>Protocol Field:</strong> Determines next-layer processing (TCP=6, UDP=17, ICMP=1).</li>
+            </ul>
+
+            <div class="tech-box">
+                <h4>IP TTL Fingerprinting Reference</h4>
+                <p style="margin: 0; line-height: 1.6;">
+                    Linux (2.4+): 64 | Windows XP: 128 | Windows 7/10/11: 128<br>
+                    Cisco IOS: 255 | Solaris: 255 | BSD: 64<br>
+                    <em>Formula: Initial TTL - Observed TTL = Hop Count</em>
+                </p>
+            </div>
+
+            <h4>The Transmission Control Protocol (TCP)</h4>
+            
+            <p>
+                TCP provides reliable, ordered, error-checked delivery. Understanding the <strong>TCP state machine</strong> is essential for advanced scanning. The three-way handshake is the foundation of TCP connect scanning:
+            </p>
+
+            <div class="blog-image-container small">
+                <img src="/images/3wwayhandshake.png" alt="Digital cartography visualization" loading="lazy">
+                <div class="blog-image-caption">
+                </div>
+            </div>
+
+            <p>
+                Each flag combination tells a story: <strong>SYN</strong> initiates connection; <strong>ACK</strong> acknowledges received data; <strong>RST</strong> immediately terminates; <strong>FIN</strong> indicates graceful closure; <strong>PSH</strong> requests immediate delivery; <strong>URG</strong> marks priority data<a href="#ref-4" class="citation">[4]</a>.
+            </p>
+
+            <h4>The User Datagram Protocol (UDP)</h4>
+            
+            <p>
+                UDP is connectionless—"fire and forget." This makes UDP scanning fundamentally different: there's no handshake, no state, and often no response. Open ports may remain silent, while closed ports should return ICMP Port Unreachable. Rate limiting (often 1 ICMP per second) makes UDP scanning extremely slow.
+            </p>
+
+            <h3>Network Architecture and Scanning Implications</h3>
+            
+            <p>
+                Modern networks are segmented for security and performance. Understanding segmentation is crucial:
+            </p>
+
+            <ul>
+                <li><strong>DMZ (Demilitarized Zone):</strong> Hosts public-facing services; reveals public attack surface.</li>
+                <li><strong>Internal Networks:</strong> Corporate LANs, wireless networks; contain critical assets.</li>
+                <li><strong>Cloud Environments:</strong> VPCs, security groups, metadata services, container networks.</li>
+                <li><strong>NAT (Network Address Translation):</strong> Maps private to public addresses, complicating scanning.</li>
+            </ul>
+
+            <h2 id="network-layer">III. Network Layer Scanning</h2>
+            
+            <h3>Host Discovery (Ping Sweeping)</h3>
+            
+            <h4>ICMP Echo Scanning (Traditional Ping)</h4>
+            
+            <p>
+                ICMP echo request (Type 8) elicits ICMP echo reply (Type 0) from active hosts. This is the most basic host discovery method.
+            </p>
+
+            <div class="command-block">
+nmap -sn 192.168.1.0/24
+            </div>
+
+            <div class="output-block">
+Nmap scan report for 192.168.1.1
+Host is up (0.00045s latency).
+MAC Address: 00:11:22:33:44:55 (Cisco Systems)
+Nmap scan report for 192.168.1.10
+Host is up (0.0012s latency).
+MAC Address: AA:BB:CC:DD:EE:FF (Intel Corporate)
+            </div>
+
+            <p>
+                <strong>Analysis:</strong> Low latency (0.00045s) suggests local network; TTL=63 suggests Linux one hop away; TTL=127 suggests Windows on local network. However, modern firewalls often block ICMP, leading to "ping blindness"<a href="#ref-5" class="citation">[5]</a>.
+            </p>
+
+            <h4>TCP SYN Host Discovery</h4>
+            
+            <p>
+                When ICMP is blocked, TCP ports may still be open. By sending TCP SYN packets to common ports (80, 443, 22), we detect hosts by their responses.
+            </p>
+
+            <div class="command-block">
+nmap -PS22,80,443 -sn 192.168.1.0/24
+            </div>
+
+            <h4>ARP Scanning (Local Network)</h4>
+            
+            <p>
+                On local networks, ARP requests are broadcast and cannot be blocked by firewalls—they're essential for network function.
+            </p>
+
+            <div class="command-block">
+sudo arp-scan -l
+            </div>
+
+            <div class="output-block">
+Interface: eth0, datalink type: EN10MB (Ethernet)
+192.168.1.1     00:11:22:33:44:55       Cisco Systems, Inc.
+192.168.1.5     00:50:56:c0:00:08       VMware, Inc.
+192.168.1.10    00:0c:29:3e:5a:12       VMware, Inc.
+3 packets received by filter, 0 packets dropped by kernel
+            </div>
+
+            <h3>Network Topology Mapping</h3>
+            
+            <h4>Traceroute Techniques</h4>
+            
+            <p>
+                Traceroute maps routes by exploiting the TTL field. Each router decrements TTL by 1; when TTL hits 0, the router sends ICMP Time Exceeded.
+            </p>
+
+            <div class="command-block">
+traceroute 8.8.8.8
+            </div>
+
+            <div class="output-block">
+traceroute to 8.8.8.8 (8.8.8.8), 30 hops max, 60 byte packets
+ 1  192.168.1.1 (192.168.1.1)  0.456 ms  0.389 ms  0.372 ms
+ 2  10.0.0.1 (10.0.0.1)  1.234 ms  1.198 ms  1.156 ms
+ 3  isp-router.isp.net (203.0.113.1)  5.678 ms  5.543 ms  5.489 ms
+ 4  core1.isp.net (198.51.100.1)  10.123 ms  9.987 ms  9.876 ms
+ 5  72.14.221.34 (72.14.221.34)  15.432 ms  15.321 ms  15.234 ms
+ 8  dns.google (8.8.8.8)  30.123 ms  30.012 ms  29.901 ms
+            </div>
+
+            <h3>DNS Enumeration</h3>
+            
+            <h4>Forward DNS Brute Forcing</h4>
+            
+            <div class="command-block">
+dnsrecon -d example.com -D /usr/share/wordlists/dnsmap.txt -t brt
+            </div>
+
+            <h4>DNS Zone Transfer (AXFR)</h4>
+            
+            <p>
+                If improperly configured, anyone can request a full zone transfer, obtaining all DNS records.
+            </p>
+
+            <div class="command-block">
+dig @ns1.example.com example.com AXFR
+            </div>
+
+            <div class="warning-box">
+                <h4>Security Warning</h4>
+                <p style="margin: 0;">Zone transfers expose complete network maps including internal IP addresses and host naming conventions. Always disable AXFR for untrusted hosts.</p>
+            </div>
+
+            <h2 id="host-discovery">IV. Host Discovery & Enumeration</h2>
+            
+            <h3>Operating System Fingerprinting</h3>
+            
+            <h4>Active OS Fingerprinting</h4>
+            
+            <p>
+                Different operating systems implement TCP/IP stacks with subtle differences: default TTL values, TCP window sizes, TCP options ordering, and behavior in edge cases.
+            </p>
+
+            <div class="command-block">
+sudo nmap -O 192.168.1.10
+            </div>
+
+            <div class="output-block">
+Running: Linux 5.X
+OS CPE: cpe:/o:linux:linux_kernel:5.4
+OS details: Linux 5.4
+Network Distance: 1 hop
+            </div>
+
+            <p>
+                Nmap sends up to 16 probes testing ICMP behavior, TCP options, window sizes, sequence numbers, and option parsing. Responses are matched against a database of thousands of signatures<a href="#ref-6" class="citation">[6]</a>.
+            </p>
+
+            <h4>Passive OS Fingerprinting</h4>
+            
+            <div class="command-block">
+sudo p0f -i eth0 -o p0f.log
+            </div>
+
+            <h3>Service Enumeration</h3>
+            
+            <h4>SNMP Enumeration</h4>
+            
+            <p>
+                Simple Network Management Protocol can reveal massive amounts of system information: users, running processes, network configuration, installed software.
+            </p>
+
+            <div class="command-block">
+snmpwalk -c public -v1 192.168.1.10 1.3.6.1.2.1.25.4  # Processes
+snmpwalk -c public -v1 192.168.1.10 1.3.6.1.2.1.25.6  # Software
+            </div>
+
+            <h4>SMB Enumeration</h4>
+            
+            <div class="command-block">
+enum4linux -a 192.168.1.10
+smbmap -H 192.168.1.10
+            </div>
+
+            <h2 id="port-scanning">V. Port Scanning Mastery</h2>
+            
+            <h3>TCP Scanning Techniques</h3>
+            
+            <h4>TCP Connect Scan (-sT)</h4>
+            
+            <p>
+                The full TCP three-way handshake. Most reliable but most visible and slowest. Creates full connection logs on the target.
+            </p>
+
+            <div class="command-block">
+nmap -sT 192.168.1.10
+            </div>
+
+            <h4>TCP SYN Scan (Stealth Scan) (-sS)</h4>
+            
+            <p>
+                The "half-open" scan. Sends SYN but never completes handshake—faster and stealthier.
+            </p>
+
+            <div class="command-block">
+sudo nmap -sS 192.168.1.10
+            </div>
+
+            <div class="tip-box">
+                <h4>Pro Tip</h4>
+                <p style="margin: 0;">SYN scanning requires raw packet privileges (root/administrator). It's the default scan type when privileges are available.</p>
+            </div>
+
+            <h4>FIN, NULL, and Xmas Scans</h4>
+            
+            <p>
+                These exploit RFC 793: closed ports should RST to packets without SYN/RST/ACK; open ports should drop them.
+            </p>
+
+            <div class="command-block">
+sudo nmap -sF 192.168.1.10  # FIN scan
+sudo nmap -sN 192.168.1.10  # NULL scan
+sudo nmap -sX 192.168.1.10  # Xmas scan (FIN, PSH, URG)
+            </div>
+
+            <h3>Advanced Port Scanning Techniques</h3>
+            
+            <h4>Idle Scan (Zombie Scan) (-sI)</h4>
+            
+            <p>
+                The ultimate stealth scan—bounces scan off a "zombie" host with predictable IP ID sequences. The target thinks the zombie is scanning it.
+            </p>
+
+            <div class="command-block">
+sudo nmap -sI 192.168.1.50:80 192.168.1.10
+            </div>
+
+            <h4>Fragmentation (-f)</h4>
+            
+            <div class="command-block">
+sudo nmap -sS -f 192.168.1.10
+sudo nmap -sS --mtu 16 192.168.1.10
+            </div>
+
+            <h2 id="service-detection">VI. Service Detection & Version Fingerprinting</h2>
+            
+            <h3>Banner Grabbing</h3>
+            
+            <h4>Automated Banner Grabbing</h4>
+            
+            <div class="command-block">
+nmap -sV --version-intensity 5 192.168.1.10
+            </div>
+
+            <div class="output-block">
+PORT    STATE SERVICE     VERSION
+22/tcp  open  ssh         OpenSSH 8.2p1 Ubuntu 4ubuntu0.5
+80/tcp  open  http        Apache httpd 2.4.41 ((Ubuntu))
+443/tcp open  ssl/http    Apache httpd 2.4.41 ((Ubuntu))
+3306/tcp open mysql       MySQL 8.0.32-0ubuntu0.20.04.2
+            </div>
+
+            <h4>Web Server Fingerprinting</h4>
+            
+            <div class="command-block">
+whatweb http://192.168.1.10
+curl -I http://192.168.1.10
+            </div>
+
+            <h4>SSL/TLS Analysis</h4>
+            
+            <div class="command-block">
+testssl.sh https://192.168.1.10
+nmap --script ssl-cert,ssl-enum-ciphers -p 443 192.168.1.10
+            </div>
+
+            <h2 id="vulnerability-scanning">VII. Vulnerability Scanning</h2>
+            
+            <h3>Network Vulnerability Scanners</h3>
+            
+            <h4>Nessus</h4>
+            
+            <p>
+                Uses a vast plugin database (100,000+) to test for known vulnerabilities, configuration issues, and compliance violations.
+            </p>
+
+            <div class="command-block">
+nessuscli scan new --policy "Basic Network Scan" --targets "192.168.1.0/24" --name "Internal Scan"
+            </div>
+
+            <h4>Nmap NSE (Nmap Scripting Engine)</h4>
+            
+            <div class="command-block">
+nmap --script vuln 192.168.1.10
+nmap --script smb-vuln-ms17-010,smb-vuln-ms08-067 -p 445 192.168.1.10
+nmap --script ssl-heartbleed,ssl-poodle -p 443 192.168.1.10
+            </div>
+
+            <h3>Web Application Vulnerability Scanning</h3>
+            
+            <h4>Nikto</h4>
+            
+            <div class="command-block">
+nikto -h http://192.168.1.10 -o nikto_report.html
+            </div>
+
+            <h4>OWASP ZAP</h4>
+            
+            <div class="command-block">
+zap-cli quick-scan --self-contained http://192.168.1.10
+            </div>
+
+            <h4>SQLMap</h4>
+            
+            <div class="command-block">
+sqlmap -u "http://192.168.1.10/page.php?id=1" --dbs
+sqlmap -u "http://192.168.1.10/page.php?id=1" -D database_name --tables
+            </div>
+
+            <h2 id="web-scanning">VIII. Web Application Scanning</h2>
+            
+            <h3>Directory and File Brute Forcing</h3>
+            
+            <h4>Gobuster</h4>
+            
+            <div class="command-block">
+gobuster dir -u http://192.168.1.10 -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -x php,html,js,txt,bak
+            </div>
+
+            <h4>Ffuf</h4>
+            
+            <div class="command-block">
+ffuf -u http://192.168.1.10/FUZZ -w /usr/share/wordlists/dirb/common.txt
+ffuf -u http://192.168.1.10/FUZZ -w wordlist.txt -e .php,.html,.js,.bak
+            </div>
+
+            <h3>Virtual Host Discovery</h3>
+            
+            <div class="command-block">
+gobuster vhost -u http://192.168.1.10 -w subdomains.txt
+ffuf -u http://192.168.1.10 -H "Host: FUZZ.example.com" -w subdomains.txt
+            </div>
+
+            <h2 id="advanced-techniques">IX. Advanced Scanning Techniques</h2>
+            
+            <h3>Evasion and Obfuscation</h3>
+            
+            <h4>IDS/IPS Evasion</h4>
+            
+            <div class="command-block">
+sudo nmap -sS -f -T0 --max-retries 1 --scan-delay 5s 192.168.1.10
+sudo nmap -sS -D RND:10 192.168.1.10
+sudo nmap -sS --source-port 53 192.168.1.10
+            </div>
+
+            <h3>IPv6 Scanning</h3>
+            
+            <div class="command-block">
+ping6 -I eth0 ff02::1
+sudo nmap -6 -sn ff02::1%eth0
+            </div>
+
+            <h3>Cloud and Container Scanning</h3>
+            
+            <h4>AWS Metadata Service</h4>
+            
+            <div class="command-block">
+curl http://169.254.169.254/latest/meta-data/
+TOKEN=$(curl -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600")
+curl -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/iam/security-credentials/
+            </div>
+
+            <h4>Kubernetes API</h4>
+            
+            <div class="command-block">
+curl -k https://192.168.1.10:6443/api
+kubectl get pods --all-namespaces
+kubectl get secrets --all-namespaces
+            </div>
+
+            <h2 id="tools-deep-dive">X. Scanning Tools Deep Dive</h2>
+            
+            <h3>Nmap Mastery</h3>
+            
+            <h4>Comprehensive Scan</h4>
+            
+            <div class="command-block">
+sudo nmap -sS -sU -sV -sC -O -A -T4 -p- --script "default and safe" -oA full_scan 192.168.1.10
+            </div>
+
+            <h4>NSE Script Development</h4>
+            
+            <div class="tech-box">
+                <h4>Custom Script Structure</h4>
+                <pre style="margin: 0; color: #a0a0a0;">description = [[Custom vulnerability check]]
+author = "Security Analyst"
+categories = {"discovery", "safe"}
+
+portrule = shortport.http
+
+action = function(host, port)
+  local response = http.get(host, port, "/vulnerable-endpoint")
+  if response.status == 200 and response.body:match("VULNERABLE") then
+    return "Vulnerable version detected!"
+  end
+  return nil
+end</pre>
+            </div>
+
+            <h3>Masscan</h3>
+            
+            <p>
+                Masscan is the fastest port scanner, capable of scanning the entire internet in minutes using asynchronous transmission.
+            </p>
+
+            <div class="command-block">
+sudo masscan 192.168.1.0/24 -p0-65535 --rate 10000
+sudo masscan 192.168.1.0/24 --top-ports 100 --banners --rate 10000
+            </div>
+
+            <table>
+                <tr>
+                    <th>Feature</th>
+                    <th>Masscan</th>
+                    <th>Nmap</th>
+                </tr>
+                <tr>
+                    <td>Speed</td>
+                    <td>10 million pps</td>
+                    <td>~1000 pps</td>
+                </tr>
+                <tr>
+                    <td>Accuracy</td>
+                    <td>Lower (async)</td>
+                    <td>Higher (stateful)</td>
+                </tr>
+                <tr>
+                    <td>Version Detection</td>
+                    <td>Limited</td>
+                    <td>Excellent</td>
+                </tr>
+                <tr>
+                    <td>OS Detection</td>
+                    <td>No</td>
+                    <td>Excellent</td>
+                </tr>
+                <tr>
+                    <td>Scripting</td>
+                    <td>No</td>
+                    <td>Extensive (NSE)</td>
+                </tr>
+            </table>
+
+            <h2 id="defense-ethics">XI. Defensive Considerations & Ethics</h2>
+            
+            <h3>Detecting Scanning Activity</h3>
+            
+            <h4>Snort/Suricata Rules</h4>
+            
+            <div class="tech-box">
+                <h4>Detection Signatures</h4>
+                <pre style="margin: 0; color: #a0a0a0;">alert tcp any any -> any any (msg:"NMAP SYN Scan"; flags:S; threshold:type both, track by_src, count 50, seconds 10; sid:1000001;)
+alert tcp any any -> any any (msg:"NMAP FIN Scan"; flags:F; threshold:type both, track by_src, count 20, seconds 10; sid:1000002;)
+alert tcp any any -> any any (msg:"NMAP NULL Scan"; flags:0; threshold:type both, track by_src, count 20, seconds 10; sid:1000003;)</pre>
+            </div>
+
+            <h3>Legal and Ethical Framework</h3>
+            
+            <div class="warning-box">
+                <h4>Authorization Requirements</h4>
+                <ul style="margin: 0;">
+                    <li>Written permission required before scanning</li>
+                    <li>Clearly defined scope (IP ranges, systems, windows)</li>
+                    <li>Established rules of engagement</li>
+                    <li>Emergency contacts and stop conditions</li>
+                </ul>
+            </div>
+
+            <p>
+                <strong>Legal Considerations:</strong> CFAA (USA) - Unauthorized access to protected computers; Computer Misuse Act (UK) - Unauthorized acts with intent to impair; GDPR (EU) - Data protection during testing<a href="#ref-7" class="citation">[7]</a>.
+            </p>
+
+            <h2 id="methodology">XII. Building a Scanning Methodology</h2>
+            
+            <h3>The Scanning Lifecycle</h3>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">Phase 1: Planning</div>
+                    <p>Define objectives, obtain authorization, select tools, establish baselines</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Phase 2: Discovery</div>
+                    <p>Host discovery, port scanning, service enumeration, topology mapping</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Phase 3: Enumeration</div>
+                    <p>OS fingerprinting, application identification, user enumeration</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Phase 4: Vulnerability Assessment</div>
+                    <p>Automated scanning, manual verification, risk prioritization</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Phase 5: Reporting</div>
+                    <p>Executive summary, technical findings, remediation guidance</p>
+                </div>
+            </div>
+
+            <h3>Automation and Orchestration</h3>
+            
+            <div class="tech-box">
+                <h4>Continuous Scanning Pipeline</h4>
+                <pre style="margin: 0; color: #a0a0a0;">#!/bin/bash
+# automated_scan.sh
+TARGETS="targets.txt"
+OUTPUT_DIR="scans/$(date +%Y%m%d)"
+
+# Host discovery
+nmap -sn -PE -PS22,80,443 -oG $OUTPUT_DIR/live_hosts.txt -iL $TARGETS
+
+# Port scanning
+masscan -iL $OUTPUT_DIR/hosts.txt -p1-65535 --rate 10000 -oJ $OUTPUT_DIR/masscan.json
+
+# Detailed nmap
+nmap -sS -sV -sC -A -T4 -iL $OUTPUT_DIR/hosts.txt -oA $OUTPUT_DIR/detailed
+
+# Vulnerability scanning
+nmap -sV --script vuln -iL $OUTPUT_DIR/hosts.txt -oN $OUTPUT_DIR/vulns.txt</pre>
+            </div>
+
+            <h2 id="practical-labs">XIII. Practical Labs & Scenarios</h2>
+            
+            <h3>Lab 1: Basic Network Reconnaissance</h3>
+            
+            <p><strong>Objective:</strong> Map a small network and identify live hosts and open ports.</p>
+
+            <div class="command-block">
+# 1. Host Discovery
+sudo nmap -sn 192.168.56.0/24 -oG live_hosts.txt
+
+# 2. ARP scan
+sudo arp-scan -l
+
+# 3. Port scan
+nmap -sS -p- -iL live_hosts.txt -oA full_port_scan
+
+# 4. Service detection
+nmap -sV -sC -p 22,80,443,3306,3389 -iL live_hosts.txt
+
+# 5. OS detection
+sudo nmap -O --osscan-limit -iL live_hosts.txt
+            </div>
+
+            <h3>Lab 2: Stealth Scanning Challenge</h3>
+            
+            <p><strong>Scenario:</strong> Target has Snort IDS monitoring. Goal: Obtain port list without detection.</p>
+
+            <div class="command-block">
+# Attempt 1: Slow scan
+sudo nmap -sS -T0 --max-retries 1 --scan-delay 5s 192.168.56.10
+
+# Attempt 2: Fragmentation
+sudo nmap -sS -f -T1 192.168.56.10
+
+# Attempt 3: Idle scan
+sudo nmap -sI 192.168.56.5 192.168.56.10
+            </div>
+
+            <h2 id="conclusion">XIV. Conclusion: The Path to Mastery</h2>
+            
+            <div class="blog-image-container small">
+                <img src="/images/cyber-cartographer.png" alt="Digital cartography visualization" loading="lazy">
+                <div class="blog-image-caption">
+                    Figure 3: The master scanner sees patterns in chaos, structure in noise.
+                </div>
+            </div>
+
+            <p>
+                Mastering the art of digital scanning is a journey, not a destination. The landscape evolves constantly—new protocols emerge, defenses adapt, and tools advance. The true expert maintains a balance of deep technical knowledge, ethical responsibility, and continuous learning.
+            </p>
+
+            <p>
+                <strong>Key Takeaways:</strong> Foundation First—understand TCP/IP before relying on tools; Methodology Matters—structured approaches yield consistent results; Tool Proficiency—master a few tools deeply; Stealth and Ethics—scanning power requires responsible use; Continuous Learning—stay current with new techniques and defenses.
+            </p>
+
+            <blockquote>
+                "The hidden digital world is vast and complex. With the knowledge in this guide, you possess the map and compass to navigate it responsibly and effectively. Scan wisely, report thoroughly, and always remember: the goal of offensive security is ultimately to build stronger defenses."
+            </blockquote>
+
+            <h3>Next Steps</h3>
+            
+            <ul>
+                <li>Practice in controlled lab environments (Hack The Box, VulnHub)</li>
+                <li>Obtain relevant certifications (OSCP, CEH, GPEN)</li>
+                <li>Contribute to open-source security tools</li>
+                <li>Participate in bug bounty programs (with authorization)</li>
+                <li>Build and defend your own networks</li>
+            </ul>
+
+            <h2>Appendix A: Common Port Reference</h2>
+            
+            <table>
+                <tr>
+                    <th>Port</th>
+                    <th>Service</th>
+                    <th>Protocol</th>
+                    <th>Common Vulnerabilities</th>
+                </tr>
+                <tr>
+                    <td>20/21</td>
+                    <td>FTP</td>
+                    <td>TCP</td>
+                    <td>Anonymous access, cleartext auth</td>
+                </tr>
+                <tr>
+                    <td>22</td>
+                    <td>SSH</td>
+                    <td>TCP</td>
+                    <td>Weak ciphers, brute force</td>
+                </tr>
+                <tr>
+                    <td>23</td>
+                    <td>Telnet</td>
+                    <td>TCP</td>
+                    <td>Cleartext everything</td>
+                </tr>
+                <tr>
+                    <td>25</td>
+                    <td>SMTP</td>
+                    <td>TCP</td>
+                    <td>Relay, spoofing, enumeration</td>
+                </tr>
+                <tr>
+                    <td>53</td>
+                    <td>DNS</td>
+                    <td>TCP/UDP</td>
+                    <td>Zone transfer, cache poisoning</td>
+                </tr>
+                <tr>
+                    <td>80/443</td>
+                    <td>HTTP/HTTPS</td>
+                    <td>TCP</td>
+                    <td>Everything web-related</td>
+                </tr>
+                <tr>
+                    <td>135/139/445</td>
+                    <td>SMB</td>
+                    <td>TCP</td>
+                    <td>EternalBlue, null sessions</td>
+                </tr>
+                <tr>
+                    <td>1433</td>
+                    <td>MSSQL</td>
+                    <td>TCP</td>
+                    <td>Weak sa passwords</td>
+                </tr>
+                <tr>
+                    <td>3306</td>
+                    <td>MySQL</td>
+                    <td>TCP</td>
+                    <td>Weak root passwords</td>
+                </tr>
+                <tr>
+                    <td>3389</td>
+                    <td>RDP</td>
+                    <td>TCP</td>
+                    <td>BlueKeep, brute force</td>
+                </tr>
+                <tr>
+                    <td>5432</td>
+                    <td>PostgreSQL</td>
+                    <td>TCP</td>
+                    <td>Trust authentication</td>
+                </tr>
+                <tr>
+                    <td>5900</td>
+                    <td>VNC</td>
+                    <td>TCP</td>
+                    <td>No authentication, weak passwords</td>
+                </tr>
+                <tr>
+                    <td>6379</td>
+                    <td>Redis</td>
+                    <td>TCP</td>
+                    <td>No auth by default</td>
+                </tr>
+            </table>
+
+            <h2>Appendix B: Scanning Checklist</h2>
+            
+            <ul class="checklist">
+                <li>Authorization obtained and documented</li>
+                <li>Scope clearly defined (IP ranges, exclusions, time window)</li>
+                <li>Emergency contacts established</li>
+                <li>Host discovery performed (multiple methods)</li>
+                <li>Port scanning completed (TCP and UDP)</li>
+                <li>Service version identification</li>
+                <li>OS fingerprinting attempted</li>
+                <li>Web application enumeration (if applicable)</li>
+                <li>Vulnerability scanning performed</li>
+                <li>Manual verification of critical findings</li>
+                <li>False positives eliminated</li>
+                <li>Report generated with evidence and remediation</li>
+                <li>Post-scan cleanup (logs, files, permissions)</li>
+            </ul>
+
+            <h2>References</h2>
+            
+            <ol style="font-size: 0.9rem; line-height: 1.6;">
+                <li id="ref-1">Lyon, G. F. (2009). Nmap Network Scanning: The Official Nmap Project Guide. Insecure.Com LLC.</li>
+                <li id="ref-2">Maynor, D. (2007). Metasploit Toolkit for Penetration Testing. Syngress Publishing.</li>
+                <li id="ref-3">Stevens, W. R. (1994). TCP/IP Illustrated, Volume 1: The Protocols. Addison-Wesley.</li>
+                <li id="ref-4">Comer, D. E. (2013). Internetworking with TCP/IP, Volume 1: Principles, Protocols, and Architecture. Pearson.</li>
+                <li id="ref-5">Nmap Project. (2023). Nmap Reference Guide. https://nmap.org/book/</li>
+                <li id="ref-6">Fyodor. (2003). Remote OS Detection via TCP/IP Stack Fingerprinting. Phrack Magazine, Issue 54.</li>
+                <li id="ref-7">Kerr, O. S. (2016). Computer Crime Law. West Academic Publishing.</li>
+            </ol>
+
+            <div class="warning-box" style="margin-top: 3rem;">
+                <h4>Disclaimer</h4>
+                <p style="margin: 0;">The techniques and tools described should only be used on systems you own or have explicit written permission to test. Unauthorized scanning may violate local, national, and international laws. The goal of offensive security is ultimately to build stronger defenses.</p>
+            </div>
+
+        </article>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>S1GK1LL</h4>
+                <p>Cybersecurity Cyber Journal and CTF archive</p>
+            </div>
+            <div class="footer-section">
+                <h4>Links</h4>
+                <p><a href="/">Home</a></p>
+                <p><a href="/writeups/">Writeups</a></p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 S1GK1LL | 殺</p>
+        </div>
+    </footer>
+
+    <script src="/js/main.js"></script>
+    <script>
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('reading-progress').style.width = scrolled + "%";
+        });
+    </script>
+</body>
+</html>
